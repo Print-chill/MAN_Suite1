@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформлення замовлення</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="order.css">
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/f93cbd3298.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+      <header>
+        <div id="nav">
+            <a href="#" class="toggleMenu">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </a>
+            <ul>
+                <li><a href="index.html">Щоденники</a></li>
+                <li><a href="index2.html">Футболки</a></li>
+                <li><a href="index1.html">Холсти на підраминку</a></li>
+                <li><a href="index3.html">Чашки</a></li>
+                <li><a href="index4.html">Подушки</a></li>
+                <li><a href="index5.html">Контакти</a></li>
+            </ul>
+        </div>
+    </header>
+
+<main>
+    <form id="order-form">
+        <h2>Персональні дані</h2>
+        <label for="name">Ім'я:</label>
+        <input type="text" id="name" name="name" required>
+       
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      
+        <label for="telegram">Юзер Telegram:</label>
+        <input type="text" id="telegram" name="telegram" required>
+     
+        <h2>Ваш кошик</h2>
+        <ul id="cart-items">
+            <!-- Товари додаються через JavaScript -->
+        </ul>
+    
+        <h2>Доставка</h2>
+        <label for="address">Адреса доставки:</label>
+        <input type="text" id="address" name="address" required>
+   
+        <label for="payment-method">Метод оплати:</label>
+        <select id="payment-method" name="payment-method" required>
+            <option value="card">Картка</option>
+            <option value="cash">Готівка</option>
+            <option value="paypal">PayPal</option>
+        </select>
+    
+        <input type="button" id="submit-btn" value="Підтвердити замовлення">
+    </form>
+     
+    
+</main>
+    
+</body>
+
+<script src="order.js"></script>
+</html>

@@ -1,0 +1,139 @@
+#checkout {
+    position: relative;
+    bottom: -15px;
+    right: 0;
+    background-color: #00b894;
+    color: white;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    float: right;
+}
+
+#checkout:hover {
+    background-color: #00a884;
+}
+
+
+#submit-btn{
+    background-color: #00b894;
+    color: white;
+    padding: 6px 6px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: block; /*  */
+    margin: 10px auto; /*  */
+    text-align: center;
+}
+
+#submit-btn:hover{
+    background-color: #00a884;
+}
+
+.remove-item{
+    color: white;
+    background-color: red;
+    border-radius: 50%;
+    width: 20px;
+    text-align: center;
+}
+
+/* Загальні стилі для форми */
+#order-form {
+    max-width: 500px; /* Обмежуємо ширину форми */
+    margin: 20px auto; /* Центруємо форму */
+    padding: 20px;
+    background-color: #f9f9f9; /* Світлий фон */
+    border-radius: 10px; /* Округлі кути */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Заголовки розділів */
+#order-form h2 {
+    text-align: center; /* Вирівнювання по центру */
+    color: #007bff; /* Основний колір */
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    border-bottom: 2px solid #007bff; /* Підкреслення */
+    padding-bottom: 5px;
+}
+
+/* Стилі для міток */
+#order-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Стилі для полів вводу */
+#order-form input[type="text"],
+#order-form input[type="email"],
+#order-form input[type="button"],
+#order-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+/* Зміна кольору при фокусі */
+#order-form input:focus,
+#order-form select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Стилі для кнопки */
+#order-form input[type="button"] {
+    background-color: #007bff; /* Синій фон */
+    color: #fff; /* Білий текст */
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Зміна кольору кнопки при наведенні */
+#order-form input[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+/* Стилі для списку товарів */
+#cart-items {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+#cart-items li {
+    background-color: #e9ecef; /* Світло-сірий фон */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between; /* Вирівнювання тексту та кнопок */
+    align-items: center;
+    font-size: 0.9em;
+}
+
+/* Відображення на мобільних пристроях */
+@media (max-width: 768px) {
+    #order-form {
+        padding: 15px;
+        font-size: 0.9em;
+    }
+
+    #order-form h2 {
+        font-size: 1.2em;
+    }
+}

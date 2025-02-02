@@ -1,0 +1,195 @@
+/* Загальні стилі для контейнера продуктів */
+.products {
+  display: flex;
+  justify-content: center; /* Центруємо елементи */
+  gap: 20px; /* Відстань між картками */
+  flex-wrap: wrap; /* Переносимо на новий рядок, якщо не вистачає місця */
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Стилі для окремої картки товару */
+.product {
+  width: 300px; /* Ширина картки */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px; /* Закруглені кути */
+  overflow: hidden; /* Ховаємо вихідні елементи */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тінь */
+  text-align: center; /* Вирівнювання тексту */
+  padding: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Ефект при наведенні на картку */
+.product:hover {
+  transform: scale(1.05); /* Легка анімація збільшення */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Стилі для зображення товару */
+.product img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Стилі для назви товару */
+.product h3 {
+  font-size: 18px;
+  margin: 15px 0 10px;
+  color: #333;
+}
+
+/* Стилі для ціни */
+.product p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Стилі для контейнера кнопок */
+.content_btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Стилі для кнопки Viber */
+.viber-button {
+  background-color: #665CAC;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.viber-button:hover {
+  background-color: #5a4d9c; /* Трохи темніший при наведенні */
+}
+
+/* Стилі для кнопки "додати в кошик" */
+.add-to-cart {
+  font-size: 20px;
+  color: #fff;
+  background-color: #007BFF;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #0056b3; /* Темніший синій при наведенні */
+}
+
+@media (max-width: 1024px) {
+  .products {
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .product {
+    width: 250px;
+  }
+
+  .viber-button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .add-to-cart {
+    font-size: 18px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .products {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product {
+    width: 35%;
+    max-width: 300px;
+  }
+
+  .content_btn {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .viber-button {
+    width: 100%;
+  }
+
+  .add-to-cart {
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products {
+    padding: 10px;
+  }
+
+  .product {
+    padding: 10px;
+  }
+
+  .viber-button {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  .add-to-cart {
+    font-size: 16px;
+    padding: 6px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+    #nav {
+        display: none; /* Ховаємо список меню */
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background: gray;
+        text-align: center;
+        
+    }
+
+    #nav ul li {
+        display: none; 
+        padding: 10px;
+    }
+
+    .toggleMenu {
+        display: block; /* Показуємо іконку меню */
+        cursor: pointer;
+        padding: 10px;
+        background: none;
+        border: none;
+        color: white;
+    }
+    #open-btn {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        font-size: 30px;
+        background: none;
+        border: none;
+        color: #333;
+        cursor: pointer;
+        z-index: 1000;
+        display: block; /* Завжди видно */
+    }
+}

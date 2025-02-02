@@ -1,0 +1,182 @@
+body {
+    font-family: roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4f6;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+header, footer {
+    background: gray;
+    color: #fff;
+    padding: 10px;
+}
+
+header ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    justify-content: space-between;
+
+}
+
+header ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+header ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+header ul li a:hover {
+    background-color: black;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+footer a {
+    color: #dfe6e9;
+}
+
+.toggleMenu {
+    align-items: center;
+    display: none;
+    font-size: 30px;
+}
+
+#checkout {
+    position: relative;
+    bottom: -15px;
+    right: 0;
+    background-color: #00b894;
+    color: white;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    float: right;
+}
+
+#checkout:hover {
+    background-color: #00a884;
+}
+
+@media screen and (max-width: 768px) {
+    #nav {
+        display: none; /* Ховаємо список меню */
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background: gray;
+        text-align: center;
+        
+    }
+
+    #nav ul li {
+        display: none; 
+        padding: 10px;
+    }
+
+    .toggleMenu {
+        display: block; /* Показуємо іконку меню */
+        cursor: pointer;
+        padding: 10px;
+        background: none;
+        border: none;
+        color: white;
+    }
+    #open-btn {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        font-size: 30px;
+        background: none;
+        border: none;
+        color: #333;
+        cursor: pointer;
+        z-index: 1000;
+        display: block; /* Завжди видно */
+    }
+}
+/* Стилі для бічного меню */
+#sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+#sidebar ol {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sidebar ol li {
+    padding: 15px 20px;
+    font-size: 18px;
+}
+
+#sidebar ol li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#sidebar ol li a:hover {
+    color: #007bff;
+}
+
+#sidebar #close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+}
+
+#open-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* Відображення меню при відкритті */
+#sidebar.open {
+    width: 250px;
+}
+
+
+
