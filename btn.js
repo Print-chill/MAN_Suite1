@@ -7,35 +7,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateCart();
 
-    document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", function () {
-            const productElement = this.closest(".product");
+    // Делегування подій: слухаємо кліки на всьому контейнері з товарами
+    document.getElementById("products-container").addEventListener("click", function (event) {
+        if (event.target.classList.contains("add-to-cart")) {
+            const productElement = event.target.closest(".product");
             const productName = productElement.querySelector("h3").innerText;
             const productPrice = productElement.querySelector("p").innerText;
             const productImage = productElement.querySelector("img").src;
-
-            if (!productImage) {
-                console.error("Зображення не знайдено для товару:", productName);
-                return;
-            }
 
             const product = {
                 name: productName,
                 price: productPrice,
                 jpg: productImage,
             };
+
             cart.push(product);
             saveCart();
             updateCart();
-            showNotification(notificationAdd); // Показати сповіщення про додавання
-        });
+            showNotification(notificationAdd);  // Показати сповіщення про додавання
+        }
     });
 
     function showNotification(notificationElement) {
-        notificationElement.classList.add("show"); // Показуємо сповіщення
+        notificationElement.classList.add("show");
         setTimeout(() => {
-            notificationElement.classList.remove("show"); // Прибираємо через 3 секунди
-        }, 2000);
+            notificationElement.classList.remove("show");
+        }, 3000);
     }
 
     function updateCart() {
@@ -54,13 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
             cartItemsElement.appendChild(listItem);
         });
 
+        // Видалення товарів з кошика
         document.querySelectorAll(".remove-item").forEach(button => {
             button.addEventListener("click", function () {
                 const index = parseInt(this.getAttribute("data-index"));
                 cart.splice(index, 1);
                 saveCart();
                 updateCart();
-                showNotification(notificationDel); // Показати сповіщення про видалення
+                showNotification(notificationDel);
             });
         });
     }
@@ -80,5 +78,4 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('checkout').addEventListener('click', function () {
         window.location.href = 'order.html';
     });
-
 });
