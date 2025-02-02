@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         notificationElement.classList.add("show"); // Показуємо сповіщення
         setTimeout(() => {
             notificationElement.classList.remove("show"); // Прибираємо через 3 секунди
-        }, 3000);
+        }, 2000);
     }
 
     function updateCart() {
