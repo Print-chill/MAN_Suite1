@@ -40,51 +40,16 @@
         </div>
             <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
     </header>
-	<main>
-        <div id="cart-notification" class="hidden">Товар додано в кошик</div>
-        <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
-	<section class="products"> 
-        <article class="product">
-            <img src="img/1.webp" alt="Товар 1" >
-            <h3>Щоденник</h3>
-            <p>200грн</p>
-            <div class="content_btn">
-                <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                <div class="add-to-cart">&#128722;</div>
-            </div>
-        </article>
+<main>
+    <div id="cart-notification" class="hidden">Товар додано в кошик</div>
+    <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
 
-        <article class="product">
-            <img src="img/2.webp" alt="Товар 1" >
-            <h3>Щоденник</h3>
-            <p>200грн</p>
-            <div class="content_btn">
-                <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                <div class="add-to-cart">&#128722;</div>
-            </div>
-        </article>
-
-        <article class="product">
-            <img src="img/3.webp" alt="Товар 1" >
-            <h3>Щоденник "Roblox"</h3>
-            <p>200грн</p>
-            <div class="content_btn">
-                <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                <div class="add-to-cart">&#128722;</div>
-            </div>
-        </article>
-
-        <article class="product">
-            <img src="img/4.webp" alt="Товар 1" >
-            <h3>Щоденник</h3>
-            <p>200грн</p>
-            <div class="content_btn">
-                <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                <div class="add-to-cart">&#128722;</div>
-            </div>
-        </article>
+    <!-- Контейнер для товарів -->
+    <section id="products-container" class="products">
+        <!-- Товари будуть додаватися тут динамічно за допомогою JS -->
     </section>
-	</main>
+</main>
+
 <div id="cart">
         <h2 class="close">Кошик <span class="closeX">&times;</span></h2>
         <ul id="cart-items">
@@ -120,10 +85,10 @@ $(document).ready(function () {
 
     // Тогл головного меню
     $(".toggleMenu").click(function (e) {
-    e.preventDefault();
-    e.stopPropagation(); // Запобігає виконанню інших обробників подій
-    $("#nav ul").slideToggle(500);
-});
+        e.preventDefault();
+        e.stopPropagation();
+        $("#nav ul").slideToggle(500);
+    });
 
     // Скидання стилів при зміні розміру вікна
     $(window).resize(function () {
@@ -140,9 +105,68 @@ $(document).ready(function () {
     closeBtn.click(function () {
         sidebar.removeClass("open");
     });
+
+    // Масив файлів із папки img/ (потрібно вручну оновити список або отримати його з сервера)
+var productImages = [
+    "1.webp",
+    "2.webp",
+    "3.webp",
+    "4.webp",
+    "5.webp",
+    "6.webp",
+    "7.webp",
+    "8.webp",
+    "9.webp",
+    "10.webp",
+    "11.webp",
+    "12.webp",
+    "13.webp",
+    "14.webp",
+    "15.webp",
+    "16.webp",
+    "17.webp",
+    "18.webp",
+    "19.webp",
+    "20.webp",
+    "21.webp",
+    "22.webp",
+    "23.webp",
+    "24.webp"
+];
+
+    // Функція для створення товарів
+    function renderProducts() {
+        $("#products-container").empty(); // Очистка контейнера перед рендерингом
+        productImages.forEach(function (fileName) {
+            var productTitle = "Щоденник"; // Базова назва
+            var productPrice = "200грн"; // Базова ціна
+
+            // Генеруємо ім'я товару на основі назви файлу
+            if (fileName.includes("roblox")) productTitle = 'Щоденник "Roblox"';
+            else if (fileName.includes("minecraft")) productTitle = 'Щоденник "Minecraft"';
+            else if (fileName.includes("fortnite")) productTitle = 'Щоденник "Fortnite"';
+            else if (fileName.includes("amongus")) productTitle = 'Щоденник "Among Us"';
+
+            var productHTML = `
+                <article class="product">
+                    <img src="img/${fileName}" alt="${productTitle}">
+                    <h3>${productTitle}</h3>
+                    <p>${productPrice}</p>
+                    <div class="content_btn">
+                        <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
+                        <div class="add-to-cart">&#128722;</div>
+                    </div>
+                </article>
+            `;
+            $("#products-container").append(productHTML);
+        });
+    }
+
+    // Викликаємо функцію для створення товарів при завантаженні сторінки
+    renderProducts();
 });
 
- 
+
 </script>
 <script src="btn.js"></script>
 </html>
