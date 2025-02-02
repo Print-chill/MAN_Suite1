@@ -75,7 +75,7 @@ footer a {
     background-color: #00a884;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 968px) {
     #nav {
         display: none; /* Ховаємо список меню */
         flex-direction: column;

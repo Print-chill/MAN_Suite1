@@ -87,35 +87,17 @@
   background-color: #0056b3; /* Темніший синій при наведенні */
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 968px) {
   .products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 15px;
     padding: 15px;
   }
 
   .product {
-    width: 250px;
-  }
-
-  .viber-button {
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-
-  .add-to-cart {
-    font-size: 18px;
-    padding: 8px;
-  }
-}
-
-@media (max-width: 768px) {
-  .products {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .product {
-    width: 35%;
+    width: calc(50% - 15px); /* Два товари в ряд з урахуванням відступів */
     max-width: 300px;
   }
 
@@ -126,33 +108,38 @@
 
   .viber-button {
     width: 100%;
+    font-size: 12px;
+    padding: 8px 10px;
   }
 
   .add-to-cart {
     width: 100%;
+    font-size: 18px;
+    padding: 8px;
     border-radius: 5px;
   }
 }
 
-@media (max-width: 480px) {
-  .products {
+  @media (max-width: 480px) {
+    .products {
     padding: 10px;
   }
 
   .product {
+    width: calc(50% - 10px); /* Все ще два товари в ряд для маленьких екранів */
     padding: 10px;
   }
 
-  .viber-button {
-    font-size: 10px;
-    padding: 6px 8px;
-  }
+    .viber-button {
+      font-size: 10px;
+      padding: 6px 8px;
+    }
 
-  .add-to-cart {
-    font-size: 16px;
-    padding: 6px;
+    .add-to-cart {
+      font-size: 16px;
+      padding: 6px;
+    }
   }
-}
 
 @media screen and (max-width: 768px) {
     #nav {
@@ -164,7 +151,6 @@
         width: 100%;
         background: gray;
         text-align: center;
-        
     }
 
     #nav ul li {
@@ -180,6 +166,7 @@
         border: none;
         color: white;
     }
+
     #open-btn {
         position: fixed;
         top: 10px;
