@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const city = document.getElementById("courier-city").value.trim();
             const street = document.getElementById("courier-street").value.trim();
             const apartment = document.getElementById("courier-apartment").value.trim();
-            deliveryAddress = `Кур'єрська доставка: ${city}, ${street}, кв. ${apartment}`;
+            deliveryAddress = `Кур'єрська доставка: ${city}, ${street}` + (apartment ? `, кв. ${apartment}` : "");
         } else if (deliveryType === "branch") {
             const city = document.getElementById("branch-city").value.trim();
             const branch = document.getElementById("branch-select").value.trim();

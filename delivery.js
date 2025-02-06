@@ -20,46 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Автодоповнення міст
-    function fetchCities(inputField, listElement) {
-        inputField.addEventListener("input", function () {
-            let query = this.value.trim();
-            if (query.length < 2) return;
-
-            fetch("https://api.novaposhta.ua/v2.0/json/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    apiKey: novaPoshtaApiKey,
-                    modelName: "Address",
-                    calledMethod: "getCities",
-                    methodProperties: { FindByString: query }
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Cities API Response:", data);
-                listElement.innerHTML = "";
-
-                if (data.success && data.data.length > 0) {
-                    data.data.forEach(city => {
-                        let option = document.createElement("option");
-                        option.value = city.Description;
-                        listElement.appendChild(option);
-                    });
-                }
-            })
-            .catch(error => console.error("Помилка API Нової Пошти (міста):", error));
-        });
-    }
-
-    fetchCities(document.getElementById("branch-city"), document.getElementById("branch-city-list"));
-    fetchCities(document.getElementById("locker-city"), document.getElementById("locker-city-list"));
-
     function fetchWarehouses(cityField, selectField, warehouseType) {
         cityField.addEventListener("input", function () {
             let city = this.value.trim();
-            if (city.length < 2) return;
+            if (city.length < 2) return; // 🔥 Мінімальна кількість символів для пошуку - 2
 
             fetch("https://api.novaposhta.ua/v2.0/json/", {
                 method: "POST",
@@ -68,22 +32,25 @@ document.addEventListener("DOMContentLoaded", function () {
                     apiKey: novaPoshtaApiKey,
                     modelName: "Address",
                     calledMethod: "getWarehouses",
-                    methodProperties: { CityName: city }
+                    methodProperties: {
+                        CityName: city
+                    }
                 })
             })
             .then(response => response.json())
             .then(data => {
-                console.log("Warehouses API Response:", data);
-                selectField.innerHTML = '<option value="">Оберіть варіант</option>';
+                console.log("API Response:", data); // 🔥 Логування відповіді API для перевірки
 
+                selectField.innerHTML = '<option value="">Оберіть варіант</option>';
                 if (data.success && data.data.length > 0) {
                     data.data.forEach(option => {
+                        // 🔥 Фільтрація відділень/поштоматів
                         if (
                             (warehouseType === "branch" && (option.TypeOfWarehouse === "1" || option.CategoryOfWarehouse === "Branch")) ||
                             (warehouseType === "locker" && option.TypeOfWarehouse === "2")
                         ) {
                             let opt = document.createElement("option");
-                            opt.value = option.Description; // 🔥 Передаємо не Ref, а назву відділення/поштомату
+                            opt.value = option.Ref;
                             opt.textContent = option.Description;
                             selectField.appendChild(opt);
                         }
@@ -96,10 +63,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     selectField.innerHTML = '<option value="">Немає результатів</option>';
                 }
             })
-            .catch(error => console.error("Помилка API Нової Пошти (відділення/поштомати):", error));
+            .catch(error => console.error("Помилка API Нової Пошти:", error));
         });
     }
 
+    // Виклик функції для відділень (фільтруємо тільки відділення та пункти видачі)
     fetchWarehouses(document.getElementById("branch-city"), document.getElementById("branch-select"), "branch");
+
+    // Виклик функції для поштоматів (фільтруємо тільки поштомати)
     fetchWarehouses(document.getElementById("locker-city"), document.getElementById("locker-select"), "locker");
 });
