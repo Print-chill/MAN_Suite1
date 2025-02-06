@@ -1,66 +1,22 @@
-#checkout {
-    position: relative;
-    bottom: -15px;
-    right: 0;
-    background-color: #00b894;
-    color: white;
-    padding: 5px 5px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    float: right;
-}
-
-#checkout:hover {
-    background-color: #00a884;
-}
-
-
-#submit-btn{
-    background-color: #00b894;
-    color: white;
-    padding: 6px 6px;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    display: block; /*  */
-    margin: 10px auto; /*  */
-    text-align: center;
-}
-
-#submit-btn:hover{
-    background-color: #00a884;
-}
-
-.remove-item{
-    color: white;
-    background-color: red;
-    border-radius: 50%;
-    width: 20px;
-    text-align: center;
-}
-
 /* Загальні стилі для форми */
 #order-form {
-    max-width: 500px; /* Обмежуємо ширину форми */
-    margin: 20px auto; /* Центруємо форму */
+    max-width: 500px;
+    margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9; /* Світлий фон */
-    border-radius: 10px; /* Округлі кути */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легка тінь */
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
     color: #333;
 }
 
 /* Заголовки розділів */
 #order-form h2 {
-    text-align: center; /* Вирівнювання по центру */
-    color: #007bff; /* Основний колір */
+    text-align: center;
+    color: #007bff;
     margin-bottom: 15px;
     font-size: 1.5em;
-    border-bottom: 2px solid #007bff; /* Підкреслення */
+    border-bottom: 2px solid #007bff;
     padding-bottom: 5px;
 }
 
@@ -95,8 +51,8 @@
 
 /* Стилі для кнопки */
 #order-form input[type="button"] {
-    background-color: #007bff; /* Синій фон */
-    color: #fff; /* Білий текст */
+    background-color: #007bff;
+    color: #fff;
     border: none;
     cursor: pointer;
     font-weight: bold;
@@ -116,12 +72,12 @@
 }
 
 #cart-items li {
-    background-color: #e9ecef; /* Світло-сірий фон */
+    background-color: #e9ecef;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     display: flex;
-    justify-content: space-between; /* Вирівнювання тексту та кнопок */
+    justify-content: space-between;
     align-items: center;
     font-size: 0.9em;
 }
@@ -135,5 +91,94 @@
 
     #order-form h2 {
         font-size: 1.2em;
+    }
+}
+
+/* Стилі для прихованих елементів */
+.hidden {
+    display: none;
+}
+
+/* Контейнери вибору доставки */
+.delivery-selection {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+/* Кнопки вибору способу доставки */
+.delivery-btn {
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.delivery-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.delivery-btn.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+}
+
+/* Заголовки полів доставки */
+#delivery-form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 12px;
+}
+
+/* Поля вводу доставки */
+#delivery-form input,
+#delivery-form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Стилізація кнопки підтвердження доставки */
+#delivery-form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+#delivery-form button:hover {
+    background: #0056b3;
+}
+
+/* Додатковий стиль для введення адреси */
+.address-input {
+    margin-top: 15px;
+}
+
+/* Адаптивність для доставки */
+@media (max-width: 500px) {
+    .delivery-selection {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .delivery-btn {
+        width: 100%;
+        text-align: center;
     }
 }

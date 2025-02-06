@@ -2,13 +2,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const cartKey = "shoppingCart";
     let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
     const cartItemsElement = document.getElementById("cart-items");
+    const submitBtn = document.getElementById("submit-btn");
+    const consentCheckbox = document.getElementById("consent-checkbox");
 
     function saveCart() {
         localStorage.setItem(cartKey, JSON.stringify(cart));
     }
 
     function updateCart() {
-        cartItemsElement.innerHTML = ""; // Очищуємо список
+        cartItemsElement.innerHTML = "";
         if (cart.length === 0) {
             cartItemsElement.innerHTML = "<p>Ваш кошик порожній.</p>";
             return;
@@ -37,30 +39,57 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Делегування подій для видалення товарів
-    cartItemsElement.addEventListener("click", function (event) {
-        if (event.target.classList.contains("remove-item")) {
-            const index = parseInt(event.target.getAttribute("data-index"));
-            cart.splice(index, 1); // Видаляємо товар
-            saveCart(); // Зберігаємо зміни
-            updateCart(); // Оновлюємо відображення
+    updateCart();
+
+    // Додаємо @ до Telegram юзернейму, якщо його немає
+    const telegramInput = document.getElementById("telegram");
+    telegramInput.addEventListener("input", function () {
+        if (!this.value.startsWith("@")) {
+            this.value = "@" + this.value.replace(/^@+/, "");
         }
     });
 
-    updateCart();
+    // Переключення стану кнопки при згоді з обробкою даних
+    function updateButtonState() {
+        submitBtn.disabled = !consentCheckbox.checked;
+        submitBtn.style.backgroundColor = consentCheckbox.checked ? "#007bff" : "gray";
+        submitBtn.style.cursor = consentCheckbox.checked ? "pointer" : "not-allowed";
+    }
 
-    document.getElementById('submit-btn').addEventListener('click', function () {
+    consentCheckbox.addEventListener("change", updateButtonState);
+    updateButtonState();
+
+    submitBtn.addEventListener("click", function () {
         const botToken = '7609021461:AAGc8uPCQMjSleXxVopUCNfqPLmF5OSt2ds'; // Ваш токен
-        const chatId = '-1002479073400'; // Ваш Chat ID
+        const chatId = '-1002479073400';
         const apiUrl = `https://api.telegram.org/bot${botToken}`;
-    
+
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
-        const telegram = document.getElementById('telegram').value.trim();
-        const address = document.getElementById('address').value.trim();
+        const telegram = telegramInput.value.trim();
         const paymentMethod = document.getElementById('payment-method').value;
+        const deliveryType = document.getElementById('delivery-type').value;
+        let deliveryAddress = "";
 
-        if (!name || !email || !telegram || !address) {
+        if (deliveryType === "courier") {
+            const city = document.getElementById("courier-city").value.trim();
+            const street = document.getElementById("courier-street").value.trim();
+            const apartment = document.getElementById("courier-apartment").value.trim();
+            deliveryAddress = `Кур'єрська доставка: ${city}, ${street}, кв. ${apartment}`;
+        } else if (deliveryType === "branch") {
+            const city = document.getElementById("branch-city").value.trim();
+            const branch = document.getElementById("branch-select").value.trim();
+            deliveryAddress = `Відділення: ${city}, ${branch}`;
+        } else if (deliveryType === "locker") {
+            const city = document.getElementById("locker-city").value.trim();
+            const locker = document.getElementById("locker-select").value.trim();
+            deliveryAddress = `Поштомат: ${city}, ${locker}`;
+        }
+
+        const receiverName = document.getElementById("receiver-name").value.trim();
+        const receiverPhone = document.getElementById("receiver-phone").value.trim();
+
+        if (!name || !email || !telegram || !deliveryAddress || !receiverName || !receiverPhone) {
             alert('Будь ласка, заповніть всі обов’язкові поля!');
             return;
         }
@@ -83,14 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
         🛒 *Нове замовлення:*
         - Ім'я: ${name}
         - Email: ${email}
-        - Telegram: @${telegram}
-        - Адреса доставки: ${address}
+        - Telegram: ${telegram}
+        - Служба доставки: ${deliveryType}
+        - Адреса доставки: ${deliveryAddress}
+        - Одержувач: ${receiverName}, ${receiverPhone}
         - Метод оплати: ${paymentMethod}
         - Товари:
         ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
         `;
 
-        // Надсилання текстового повідомлення
         fetch(`${apiUrl}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -103,14 +133,13 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json())
         .then(data => {
             if (data.ok) {
-                // Надсилання фото кожного товару
-                orderDetails.forEach(item => { 
+                orderDetails.forEach(item => {
                     if (item.photo) {
                         const formData = new FormData();
                         formData.append('chat_id', chatId);
                         formData.append('photo', item.photo);
                         formData.append('caption', `${item.name} - Кількість: ${item.quantity}, Розмір: ${item.size}`);
-                        
+
                         fetch(`${apiUrl}/sendPhoto`, {
                             method: 'POST',
                             body: formData

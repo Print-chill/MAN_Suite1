@@ -46,17 +46,85 @@
         </ul>
     
         <h2>Доставка</h2>
-        <label for="address">Адреса доставки:</label>
-        <input type="text" id="address" name="address" required>
-   
+<div id="delivery-form">
+    <label for="delivery-type">Тип доставки:</label>
+    <select id="delivery-type">
+        <option value="">Оберіть тип доставки</option>
+        <option value="courier">Кур'єрська доставка</option>
+        <option value="branch">Відділення</option>
+        <option value="locker">Поштомат</option>
+    </select>
+<!--  -->
+    <!-- Поля для кур'єрської доставки -->
+    <div id="courier-fields" class="hidden">
+        <label for="courier-city">Місто:</label>
+        <input type="text" id="courier-city">
+        
+        <label for="courier-street">Вулиця:</label>
+        <input type="text" id="courier-street">
+        
+        <label for="courier-apartment">Квартира:</label>
+        <input type="text" id="courier-apartment">
+    </div>
+
+    <!-- Поля для відділення -->
+    <div id="branch-fields" class="hidden">
+        <label for="branch-city">Місто (Нова Пошта):</label>
+        <input type="text" id="branch-city" list="branch-city-list" placeholder="Введіть місто..." autocomplete="off">
+ <!--        <datalist id="branch-city-list">
+            <option value="Київ">
+            <option value="Львів">
+            <option value="Одеса">
+            <option value="Дніпро">
+            <option value="Харків">
+        </datalist> -->
+
+        <label for="branch-select">Відділення:</label>
+        <select id="branch-select">
+            <option value="">Оберіть відділення</option>
+        </select>
+    </div>
+
+    <!-- Поля для поштомату -->
+    <div id="locker-fields" class="hidden">
+        <label for="locker-city">Місто (Нова Пошта):</label>
+        <input type="text" id="locker-city" list="locker-city-list" placeholder="Введіть місто..." autocomplete="off">
+   <!--      <datalist id="locker-city-list">
+            <option value="Київ">
+            <option value="Львів">
+            <option value="Одеса">
+            <option value="Дніпро">
+            <option value="Харків">
+        </datalist>
+ -->
+        <label for="locker-select">Поштомат:</label>
+        <select id="locker-select">
+            <option value="">Оберіть поштомат</option>
+        </select>
+    </div>
+</div>
+
+<!-- Загальні дані одержувача (приховані за замовчуванням) -->
+<div id="receiver-info" class="hidden">
+    <label for="receiver-name">ПІБ:</label>
+    <input type="text" id="receiver-name">
+
+    <label for="receiver-phone">Номер телефону:</label>
+    <input type="text" id="receiver-phone">
+</div>
+
         <label for="payment-method">Метод оплати:</label>
         <select id="payment-method" name="payment-method" required>
             <option value="card">Картка</option>
             <option value="cash">Готівка</option>
             <option value="paypal">PayPal</option>
         </select>
-    
-        <input type="button" id="submit-btn" value="Підтвердити замовлення">
+        <div class="container">
+            <label class="checkbox-label">
+                <input type="checkbox" id="consent-checkbox"> Я погоджуюсь на обробку <a href="https://docs.google.com/document/d/1HmhHI5a7YEVCh7JMskH8GAvnAc6zWV-Ruyt-uUvdlUw/edit?usp=sharing"> персональних даних</a>
+            </label>
+        </div>
+        <input type="button" id="submit-btn" value="Підтвердити замовлення" disabled>
     </form>
      
     
@@ -65,4 +133,24 @@
 </body>
 
 <script src="order.js"></script>
+<script src="delivery.js"></script>
+
+<script> /*Для роботи кнопки підтвердження обробки даних*/
+document.addEventListener("DOMContentLoaded", function() {
+    let submitBtn = document.getElementById('submit-btn');
+    let consentCheckbox = document.getElementById('consent-checkbox');
+
+    function updateButtonState() {
+        submitBtn.disabled = !consentCheckbox.checked;
+        submitBtn.style.backgroundColor = consentCheckbox.checked ? "#00b894" : "gray";
+        submitBtn.style.cursor = consentCheckbox.checked ? "pointer" : "not-allowed";
+    }
+
+    // Викликаємо функцію одразу, щоб перевірити початковий стан кнопки
+    updateButtonState();
+
+    // Додаємо обробник подій для чекбоксу
+    consentCheckbox.addEventListener('change', updateButtonState);
+});
+</script>
 </html>
