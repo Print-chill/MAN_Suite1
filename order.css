@@ -210,7 +210,7 @@
     margin-top: 15px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     #order-form {
         padding: 15px;
         font-size: 0.9em;
@@ -254,4 +254,10 @@
 .error {
     border: 2px solid red !important;
     background-color: #ffe6e6;
+}
+
+@media (min-width: 968px) {
+  #sidebar {
+    display: none;
+  }
 }

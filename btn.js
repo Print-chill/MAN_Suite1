@@ -48,6 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Обробник для кнопки кошика (кнопка в правому нижньому куті)
+    document.getElementById("cart-button-mobile").addEventListener("click", () => {
+        document.getElementById("cart").style.display = "block";
+    });
+
     document.getElementById("cart-button").addEventListener("click", () => {
         document.getElementById("cart").style.display = "block";
     });

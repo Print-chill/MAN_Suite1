@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="cart-price">${item.price}</span>
                         <label>Кількість:</label>
                         <input type="number" class="quantity" data-index="${index}" value="1" min="1">
+                        <label>Фото:</label>
+                    <input type="file" class="photo" data-index="${index}" accept="image/*">
                     </div>
                     <div class="remove-item" data-index="${index}">×</div>
                 </li>
