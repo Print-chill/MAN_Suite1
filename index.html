@@ -1,22 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-	<link rel="stylesheet" href="main.css">
-	<link rel="stylesheet" href="cart.css">
-	<link rel="stylesheet" href="products.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="products.css">
     <link rel="icon" href="img/logo.png" type="image/png">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/f93cbd3298.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
 </head>
 <body>
-	 <header>
-    <button id="cart-button">&#128722; Кошик</button>
-        <!-- logo -->
+    <header>
+        <button id="cart-button">&#128722; Кошик</button>
         <div id="nav">
             <ul>
                 <li><a href="index.html">Щоденники</a></li>
@@ -38,136 +36,73 @@
                 <li><a href="index5.html">Контакти</a></li>
             </ol>
         </div>
-            <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
+        <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
     </header>
-<main>
-    <div id="cart-notification" class="hidden">Товар додано в кошик</div>
-    <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
-
-    <!-- Контейнер для товарів -->
-    <section id="products-container" class="products">
-        <!-- Товари будуть додаватися тут динамічно за допомогою JS -->
-    </section>
-</main>
-
-<div id="cart">
+    <main>
+        <div id="cart-notification" class="hidden">Товар додано в кошик</div>
+        <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
+        <section id="products-container" class="products"></section>
+    </main>
+    <div id="cart">
         <h2 class="close">Кошик <span class="closeX">&times;</span></h2>
-        <ul id="cart-items">
-            <!-- Товари будуть додаватися тут за допомогою JS -->
-        </ul>
+        <ul id="cart-items"></ul>
         <button id="checkout">Оформити замовлення</button>
-</div>
+    </div>
     <footer>
-        <p>&copy; 2024 <br> <p>
-                <a href="viber://chat?number=%2B380677774308">
-                   +380677774308 (Viber)
-                </a>
-            </p>
-            <p>
-                <a href="viber://chat?number=%2B380992042379">
- 					+380992042379 (Viber)
-				</a>
-
-             <p>
-                <a href="mailto:kontrast777@ukr.net">
-  					<i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net
-				</a>
-            </p></p>
+        <p>&copy; 2024</p>
+        <p><a href="viber://chat?number=%2B380677774308">+380677774308 (Viber)</a></p>
+        <p><a href="viber://chat?number=%2B380992042379">+380992042379 (Viber)</a></p>
+        <p><a href="mailto:kontrast777@ukr.net"><i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net</a></p>
     </footer>
+    <script src="btn.js"></script>
+    <script src="delivery.js"></script>
+    <script>
+        $(document).ready(() => {
+            const nav = $("#nav ul");
+            const sidebar = $("#sidebar");
+            const openBtn = $("#open-btn");
+            const closeBtn = $("#close-btn");
 
-</body>
+            $(".toggleMenu").click((e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                $("#nav ul").slideToggle(500);
+            });
 
-<script src="btn.js"></script>
-<script>
-$(document).ready(function () {
-    var nav = $("#nav ul");
-    var sidebar = $("#sidebar");
-    var openBtn = $("#open-btn");
-    var closeBtn = $("#close-btn");
+            $(window).resize(() => {
+                if ($(window).width() > 992) nav.removeAttr("style");
+            });
 
-    // Тогл головного меню
-    $(".toggleMenu").click(function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $("#nav ul").slideToggle(500);
-    });
+            openBtn.click(() => sidebar.addClass("open"));
+            closeBtn.click(() => sidebar.removeClass("open"));
 
-    // Скидання стилів при зміні розміру вікна
-    $(window).resize(function () {
-        if ($(window).width() > 992) {
-            nav.removeAttr("style");
-        }
-    });
+            const productImages = Array.from({ length: 24 }, (_, i) => `${i + 1}.webp`);
 
-    // Відкриття та закриття sidebar через jQuery
-    openBtn.click(function () {
-        sidebar.addClass("open");
-    });
+            const renderProducts = () => {
+                $("#products-container").empty();
+                productImages.forEach(fileName => {
+                    const productTitle = fileName.includes("roblox") ? 'Щоденник "Roblox"' :
+                        fileName.includes("minecraft") ? 'Щоденник "Minecraft"' :
+                        fileName.includes("fortnite") ? 'Щоденник "Fortnite"' :
+                        fileName.includes("amongus") ? 'Щоденник "Among Us"' : "Щоденник";
+                    const productPrice = "200грн";
+                    const productHTML = `
+                        <article class="product">
+                            <img src="img/${fileName}" alt="${productTitle}">
+                            <h3>${productTitle}</h3>
+                            <p>${productPrice}</p>
+                            <div class="content_btn">
+                                <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
+                                <div class="add-to-cart">&#128722;</div>
+                            </div>
+                        </article>
+                    `;
+                    $("#products-container").append(productHTML);
+                });
+            };
 
-    closeBtn.click(function () {
-        sidebar.removeClass("open");
-    });
-
-    // Масив файлів із папки img/ (потрібно вручну оновити список або отримати його з сервера)
-var productImages = [
-    "1.webp",
-    "2.webp",
-    "3.webp",
-    "4.webp",
-    "5.webp",
-    "6.webp",
-    "7.webp",
-    "8.webp",
-    "9.webp",
-    "10.webp",
-    "11.webp",
-    "12.webp",
-    "13.webp",
-    "14.webp",
-    "15.webp",
-    "16.webp",
-    "17.webp",
-    "18.webp",
-    "19.webp",
-    "20.webp",
-    "21.webp",
-    "22.webp",
-    "23.webp",
-    "24.webp"
-];
-
-    // Функція для створення товарів
-    function renderProducts() {
-        $("#products-container").empty(); // Очистка контейнера перед рендерингом
-        productImages.forEach(function (fileName) {
-            var productTitle = "Щоденник"; // Базова назва
-            var productPrice = "200грн"; // Базова ціна
-
-            // Генеруємо ім'я товару на основі назви файлу
-            if (fileName.includes("roblox")) productTitle = 'Щоденник "Roblox"';
-            else if (fileName.includes("minecraft")) productTitle = 'Щоденник "Minecraft"';
-            else if (fileName.includes("fortnite")) productTitle = 'Щоденник "Fortnite"';
-            else if (fileName.includes("amongus")) productTitle = 'Щоденник "Among Us"';
-
-            var productHTML = `
-                <article class="product">
-                    <img src="img/${fileName}" alt="${productTitle}">
-                    <h3>${productTitle}</h3>
-                    <p>${productPrice}</p>
-                    <div class="content_btn">
-                        <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                        <div class="add-to-cart">&#128722;</div>
-                    </div>
-                </article>
-            `;
-            $("#products-container").append(productHTML);
+            renderProducts();
         });
-    }
-
-    // Викликаємо функцію для створення товарів при завантаженні сторінки
-    renderProducts();
-});
-
-
-</script>
+    </script>
+</body>
 </html>
