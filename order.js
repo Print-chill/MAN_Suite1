@@ -18,8 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="cart-price">${item.price}</span>
                         <label>Кількість:</label>
                         <input type="number" class="quantity" data-index="${index}" value="1" min="1">
-                        <label>Фото:</label>
-                        <input type="file" class="photo" data-index="${index}" accept="image/*">
                     </div>
                     <div class="remove-item" data-index="${index}">×</div>
                 </li>
@@ -30,13 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cartHeader.addEventListener("click", () => {
         const arrow = cartHeader.querySelector(".arrow");
-        if (cartItemsElement.style.display === "none" || cartItemsElement.style.display === "") {
-            cartItemsElement.style.display = "block";
-            arrow.textContent = "❌";
-        } else {
-            cartItemsElement.style.display = "none";
-            arrow.textContent = "⬇️";
-        }
+        cartItemsElement.style.display = cartItemsElement.style.display === "none" ? "block" : "none";
+        arrow.textContent = cartItemsElement.style.display === "block" ? "❌" : "⬇️";
     });
 
     telegramInput.addEventListener("input", () => {
@@ -53,40 +46,36 @@ document.addEventListener("DOMContentLoaded", () => {
     consentCheckbox.addEventListener("change", updateButtonState);
     updateButtonState();
 
-    cartItemsElement.addEventListener("click", (event) => {
-        if (event.target.classList.contains("remove-item")) {
-            const index = event.target.dataset.index;
-            cart.splice(index, 1);
-            localStorage.setItem(cartKey, JSON.stringify(cart));
-            updateCart();
-        }
-    });
-
     submitBtn.addEventListener("click", async () => {
-        const visibleFields = document.querySelectorAll("#courier-fields:not(.hidden) input, #branch-fields:not(.hidden) input, #branch-fields:not(.hidden) select, #locker-fields:not(.hidden) input, #locker-fields:not(.hidden) select, #receiver-info:not(.hidden) input");
-
+        // 🔹 Отримуємо всі обов'язкові поля (тільки ті, що мають атрибут required)
+        const requiredFields = document.querySelectorAll("input[required], select[required]");
         let isValid = true;
-        visibleFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.classList.add("error");
-            } else {
+
+        requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add("error");
+
+            // Видаляємо помилку через 4 секунди
+            setTimeout(() => {
                 field.classList.remove("error");
-            }
+            }, 4000);
+        }
         });
 
         if (!isValid) {
-            alert('Заповніть всі обов’язкові поля!');
-            return;
+            alert('⚠ Заповніть всі обов’язкові поля перед відправкою замовлення!');
+            return; // ❌ Зупиняє виконання, якщо є порожні поля
         }
 
+        // 🚀 Якщо всі обов'язкові поля заповнені, надсилаємо замовлення
         const botToken = '7609021461:AAGc8uPCQMjSleXxVopUCNfqPLmF5OSt2ds';
         const chatId = '-1002479073400';
-        const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        const apiUrl = `https://api.telegram.org/bot${botToken}`;
 
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
-        const telegram = telegramInput.value.trim();
+        const telegram = document.getElementById("telegram").value.trim();
         const paymentMethod = document.getElementById('payment-method').value;
         const deliveryType = document.getElementById('delivery-type').value;
         const receiverName = document.getElementById("receiver-name").value.trim();
@@ -114,36 +103,49 @@ document.addEventListener("DOMContentLoaded", () => {
             name: cart[index].name,
             quantity: item.querySelector(".quantity").value,
             size: item.querySelector(".size")?.value || "Не вказано",
-            photo: item.querySelector(".photo").files[0]
+            photoSrc: item.querySelector(".cart-img")?.src // Отримуємо URL зображення товару
         }));
 
         const messageText = `
-        🛒 *Нове замовлення:*
-        - Ім'я: ${name}
-        - Email: ${email}
-        - Telegram: ${telegram}
-        - Доставка: ${deliveryType}
-        - Адреса: ${deliveryAddress}
-        - Одержувач: ${receiverName}, ${receiverPhone}
-        - Оплата: ${paymentMethod}
-        - Товари:
-        ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
-        `;
+🛒 *Нове замовлення:*
+- Ім'я: ${name}
+- Email: ${email}
+- Telegram: ${telegram}
+- Доставка: ${deliveryType}
+- Адреса: ${deliveryAddress}
+- Одержувач: ${receiverName}, ${receiverPhone}
+- Оплата: ${paymentMethod}
+- Товари:
+${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
+    `;
 
         try {
-            const response = await fetch(apiUrl, {
+            // 1️⃣ Відправляємо текстове повідомлення
+            await fetch(`${apiUrl}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
             });
 
-            if (response.ok) {
-                alert('Замовлення успішно надіслано!');
-            } else {
-                alert('Помилка при надсиланні замовлення.');
+            // 2️⃣ Відправляємо всі зображення товарів
+            for (const item of orderDetails) {
+                if (item.photoSrc) {
+                    await fetch(`${apiUrl}/sendPhoto`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            photo: item.photoSrc, // Відправляємо URL фото
+                            caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
+                        })
+                    });
+                }
             }
+
+            alert('✅ Замовлення успішно надіслано!');
         } catch (error) {
             console.error('Помилка:', error);
+            alert('❌ Помилка при надсиланні замовлення.');
         }
     });
 });
