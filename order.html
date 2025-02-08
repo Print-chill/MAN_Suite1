@@ -37,16 +37,16 @@
         <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
     </header>
 
-    <main>
+        <main>
         <form id="order-form">
             <h2>Персональні дані</h2>
-            <label for="name">Ім'я:</label>
+            <label for="name">Ім'я: <span style="color: red;">*</span></label>
             <input type="text" id="name" name="name" required>
            
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email">
           
-            <label for="telegram">Юзер Telegram:</label>
+            <label for="telegram">Юзер Telegram: <span style="color: red;">*</span></label>
             <input type="text" id="telegram" name="telegram" required>
          
             <h2 id="cart-header">
@@ -58,7 +58,7 @@
 
             <h2>Доставка</h2>
             <div id="delivery-form">
-                <label for="delivery-type">Тип доставки:</label>
+                <label for="delivery-type">Тип доставки:<span style="color: red;">*</span></label>
                 <select id="delivery-type">
                     <option value="">Оберіть тип доставки</option>
                     <option value="courier">Кур'єрська доставка</option>
@@ -67,31 +67,31 @@
                 </select>
 
                 <div id="courier-fields" class="hidden">
-                    <label for="courier-city">Місто:</label>
+                    <label for="courier-city">Місто: <span style="color: red;">*</span></label>
                     <input type="text" id="courier-city" required>
                     
-                    <label for="courier-street">Вулиця:</label>
+                    <label for="courier-street">Вулиця: <span style="color: red;">*</span></label>
                     <input type="text" id="courier-street" required>
                     
-                    <label for="courier-apartment">Квартира:</label>
+                    <label for="courier-apartment">Квартира: <span style="color: red;">*</span></label>
                     <input type="text" id="courier-apartment" required>
                 </div>
 
                 <div id="branch-fields" class="hidden">
-                    <label for="branch-city">Місто (Нова Пошта):</label>
+                    <label for="branch-city">Місто (Нова Пошта): <span style="color: red;">*</span></label>
                     <input type="text" id="branch-city" list="branch-city-list" placeholder="Введіть місто..." autocomplete="off" required>
 
-                    <label for="branch-select">Відділення:</label>
+                    <label for="branch-select">Відділення: <span style="color: red;">*</span></label>
                     <select id="branch-select">
                         <option value="">Оберіть відділення</option>
                     </select>
                 </div>
 
                 <div id="locker-fields" class="hidden">
-                    <label for="locker-city">Місто (Нова Пошта):</label>
+                    <label for="locker-city">Місто (Нова Пошта): <span style="color: red;">*</span></label>
                     <input type="text" id="locker-city" list="locker-city-list" placeholder="Введіть місто..." autocomplete="off" required>
 
-                    <label for="locker-select">Поштомат:</label>
+                    <label for="locker-select">Поштомат: <span style="color: red;">*</span></label>
                     <select id="locker-select">
                         <option value="">Оберіть поштомат</option>
                     </select>
@@ -99,14 +99,14 @@
             </div>
 
             <div id="receiver-info" class="hidden">
-                <label for="receiver-name">ПІБ:</label>
+                <label for="receiver-name">ПІБ: <span style="color: red;">*</span></label>
                 <input type="text" id="receiver-name" required>
 
-                <label for="receiver-phone">Номер телефону:</label>
+                <label for="receiver-phone">Номер телефону: <span style="color: red;">*</span></label>
                 <input type="text" id="receiver-phone" required>
             </div>
 
-            <label for="payment-method">Метод оплати:</label>
+            <label for="payment-method">Метод оплати: <span style="color: red;">*</span></label>
             <select id="payment-method" name="payment-method" required>
                 <option value="card">Картка</option>
                 <option value="cash">Готівка</option>
