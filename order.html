@@ -14,9 +14,6 @@
 <body>
     <header>
         <div id="nav">
-            <a href="#" class="toggleMenu">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-            </a>
             <ul>
                 <li><a href="index.html">Щоденники</a></li>
                 <li><a href="index2.html">Футболки</a></li>
@@ -26,6 +23,18 @@
                 <li><a href="index5.html">Контакти</a></li>
             </ul>
         </div>
+        <div id="sidebar">
+            <span id="close-btn">&times;</span>
+            <ol>
+                <li><a href="index.html">Щоденники</a></li>
+                <li><a href="index2.html">Футболки</a></li>
+                <li><a href="index1.html">Холсти на підраминку</a></li>
+                <li><a href="index3.html">Чашки</a></li>
+                <li><a href="index4.html">Подушки</a></li>
+                <li><a href="index5.html">Контакти</a></li>
+            </ol>
+        </div>
+        <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
     </header>
 
     <main>
@@ -116,19 +125,40 @@
     <script src="delivery.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let submitBtn = document.getElementById('submit-btn');
-            let consentCheckbox = document.getElementById('consent-checkbox');
+    $(document).ready(() => {
+    const nav = $("#nav ul");
+    const openBtn = $("#open-btn");
+    const closeBtn = $("#close-btn");
+    const sidebar = $("#sidebar");
 
-            function updateButtonState() {
-                submitBtn.disabled = !consentCheckbox.checked;
-                submitBtn.style.backgroundColor = consentCheckbox.checked ? "#00b894" : "gray";
-                submitBtn.style.cursor = consentCheckbox.checked ? "pointer" : "not-allowed";
-            }
+    // Обробка меню навігації
+    $(".toggleMenu").click((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        $("#nav ul").slideToggle(500);
+    });
 
-            updateButtonState();
-            consentCheckbox.addEventListener('change', updateButtonState);
-        });
+    $(window).resize(() => {
+        if ($(window).width() > 992) nav.removeAttr("style");
+    });
+
+    openBtn.click(() => sidebar.addClass("open"));
+    closeBtn.click(() => sidebar.removeClass("open"));
+
+    // Обробка кнопки submit з чекбоксом
+    let submitBtn = document.getElementById('submit-btn');
+    let consentCheckbox = document.getElementById('consent-checkbox');
+
+    function updateButtonState() {
+        submitBtn.disabled = !consentCheckbox.checked;
+        submitBtn.style.backgroundColor = consentCheckbox.checked ? "#00b894" : "gray";
+        submitBtn.style.cursor = consentCheckbox.checked ? "pointer" : "not-allowed";
+    }
+
+    updateButtonState();
+    consentCheckbox.addEventListener('change', updateButtonState);
+});
+
     </script>
 </body>
 </html>
