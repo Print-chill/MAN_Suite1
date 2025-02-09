@@ -4,17 +4,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartItemsElement = document.getElementById("cart-items");
     const notificationAdd = document.getElementById("cart-notification");
     const notificationDel = document.getElementById("cart-notification-del");
+    const checkoutButton = document.getElementById("checkout");
 
     const updateCart = () => {
-        cartItemsElement.innerHTML = cart.map((item, index) => `
-            <li>
-                <div class="cart-item-content">
-                    <img src="${item.jpg || "path/to/default-image.jpg"}" alt="${item.name}" style="width: 50px; height: auto; margin-right: 10px;">
-                    <span>${item.name} - ${item.price}</span>
-                    <div class="remove-item" data-index="${index}">×</div>
-                </div>
-            </li>
-        `).join("");
+        if (cart.length === 0) {
+            cartItemsElement.innerHTML = `<li style="text-align: center; color: #888;">Кошик порожній</li>`;
+            checkoutButton.disabled = true;
+            checkoutButton.style.backgroundColor = "#ccc"; // Сірий колір для неактивної кнопки
+            checkoutButton.style.cursor = "not-allowed"; // Заборона натискання
+        } else {
+            cartItemsElement.innerHTML = cart.map((item, index) => `
+                <li>
+                    <div class="cart-item-content">
+                        <img src="${item.jpg || "path/to/default-image.jpg"}" alt="${item.name}" style="width: 50px; height: auto; margin-right: 10px;">
+                        <span>${item.name} - ${item.price}</span>
+                        <div class="remove-item" data-index="${index}">×</div>
+                    </div>
+                </li>
+            `).join("");
+
+            checkoutButton.disabled = false;
+            checkoutButton.style.backgroundColor = "#00b894"; // Зелений колір для активної кнопки
+            checkoutButton.style.cursor = "pointer"; // Дозвіл натискання
+        }
 
         document.querySelectorAll(".remove-item").forEach(button => {
             button.addEventListener("click", () => {
@@ -62,7 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById('checkout').addEventListener('click', () => {
-        window.location.href = 'order.html';
+        if (cart.length > 0) {
+            window.location.href = 'order.html';
+        }
     });
 
     updateCart();

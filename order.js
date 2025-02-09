@@ -7,6 +7,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const consentCheckbox = document.getElementById("consent-checkbox");
     const telegramInput = document.getElementById("telegram");
 
+    const modal = document.getElementById("custom-modal");
+    const modalMessage = document.getElementById("modal-message");
+
+    const showModal = (message, isSuccess = false) => {
+        modalMessage.textContent = message;
+        modal.classList.add("visible");
+
+        // Змінюємо колір тексту в залежності від типу повідомлення
+        if (isSuccess) {
+            modalMessage.style.color = "green";
+        } else {
+            modalMessage.style.color = "red";
+        }
+
+        // Автоматично приховуємо модальне вікно через 3 секунди
+        setTimeout(() => {
+            modal.classList.remove("visible");
+        }, 3000);
+    };
+
     const updateCart = () => {
         cartItemsElement.innerHTML = cart.length === 0
             ? "<p>Ваш кошик порожній.</p>"
@@ -19,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label>Кількість:</label>
                         <input type="number" class="quantity" data-index="${index}" value="1" min="1">
                         <label>Фото:</label>
-                    <input type="file" class="photo" data-index="${index}" accept="image/*">
+                        <input type="file" class="photo" data-index="${index}" accept="image/*">
                     </div>
                     <div class="remove-item" data-index="${index}">×</div>
                 </li>
@@ -27,6 +47,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     updateCart();
+    document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("remove-item")) {
+        const index = event.target.dataset.index;
+        cart.splice(index, 1); // Видаляємо товар з кошика
+        localStorage.setItem(cartKey, JSON.stringify(cart)); // Оновлюємо локальне сховище
+        updateCart(); // Оновлюємо відображення кошика
+    }
+});
 
     cartHeader.addEventListener("click", () => {
         const arrow = cartHeader.querySelector(".arrow");
@@ -54,19 +82,21 @@ document.addEventListener("DOMContentLoaded", () => {
         let isValid = true;
 
         requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-            isValid = false;
-            field.classList.add("error");
+    if (!field.value.trim()) {
+        isValid = false;
+        field.classList.add("error");
 
-            // Видаляємо помилку через 4 секунди
-            setTimeout(() => {
-                field.classList.remove("error");
-            }, 4000);
-        }
-        });
+        // Додаємо обробник події input для поля
+        field.addEventListener("input", () => {
+            if (field.value.trim()) {
+                field.classList.remove("error"); // Видаляємо помилку, якщо поле заповнено
+            }
+        }, { once: true }); // Обробник викликається лише один раз
+    }
+});
 
         if (!isValid) {
-            alert('⚠ Заповніть всі обов’язкові поля перед відправкою замовлення!');
+            showModal("⚠ Заповніть всі обов’язкові поля перед відправкою замовлення!");
             return; // ❌ Зупиняє виконання, якщо є порожні поля
         }
 
@@ -144,10 +174,10 @@ ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, 
                 }
             }
 
-            alert('✅ Замовлення успішно надіслано!');
+            showModal("✅ Замовлення успішно надіслано!", true);
         } catch (error) {
             console.error('Помилка:', error);
-            alert('❌ Помилка при надсиланні замовлення.');
+            showModal("❌ Помилка при надсиланні замовлення.");
         }
     });
 });

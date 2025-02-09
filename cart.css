@@ -30,7 +30,7 @@
     z-index: 1000;
     display: none;
     padding: 15px;
-    max-height: 500px; 
+    max-height: 500px;
     overflow-y: auto;
 }
 
@@ -116,8 +116,8 @@
 
 .cart-button-m {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 35px;
+  right: 35px;
   background-color: black;
   color: white;
   border: none;
@@ -133,11 +133,44 @@
 
 }
 
+#checkout {
+    position: relative;
+    bottom: -10px;
+    right: 0;
+    background-color: #00b894;
+    color: white;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+    float: right;
+    width: 150px; /* Зберігаємо ширину кнопки */
+    height: auto; /* Зберігаємо висоту кнопки */
+}
+
+#checkout:hover {
+    background-color: #00a884;
+}
+
+#checkout:disabled {
+    background-color: #ccc; /* Сірий колір для неактивної кнопки */
+    cursor: not-allowed; /* Заборона натискання */
+}
+
 @media (max-width: 968px) {
-  .cart-button-m {
-    display: flex;
-  }
-  #cart-button {
-    display: none;
-  }
+    #cart {
+        top: auto; /* Скидаємо верхню позицію */
+        bottom: 100px; /* Розташовуємо кошик вище кнопки cart-button-m */
+        right: 35px; /* Вирівнюємо по правому краю, як і кнопка */
+        width: 250px; /* Ширина кошика */
+    }
+
+    .cart-button-m {
+        display: flex;
+    }
+
+    #cart-button {
+        display: none;
+    }
 }

@@ -108,13 +108,13 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 968px) {
   .products {
     padding: 10px;
   }
 
   .product {
-    width: calc(50% - 10px);
+    width: calc(37% - 10px);
     padding: 10px;
   }
 
