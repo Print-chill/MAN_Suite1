@@ -8,9 +8,10 @@ body {
 }
 
 header, footer {
-    background: gray;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
     color: #fff;
-    padding: 10px;
+    padding: 20px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 header ul {
@@ -18,28 +19,35 @@ header ul {
     padding: 0;
     text-align: center;
     justify-content: space-between;
+    display: flex;
+    margin: 0;
 }
 
 header ul li {
-    display: inline-block;
-    margin-right: 20px;
+    margin: 0 15px;
 }
 
 header ul li a {
     text-decoration: none;
     color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 header ul li a:hover {
-    background-color: black;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 footer {
     text-align: center;
-    padding: 10px;
+    padding: 20px;
     position: relative;
     bottom: 0;
     left: 0;
@@ -48,12 +56,20 @@ footer {
 
 footer a {
     color: #dfe6e9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #007bff;
 }
 
 .toggleMenu {
     align-items: center;
     display: none;
     font-size: 30px;
+    color: #fff;
+    cursor: pointer;
 }
 
 #checkout {
@@ -62,16 +78,18 @@ footer a {
     right: 0;
     background-color: #00b894;
     color: white;
-    padding: 5px 5px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     font-size: 14px;
     cursor: pointer;
     float: right;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #checkout:hover {
     background-color: #00a884;
+    transform: translateY(-2px);
 }
 
 /* Сайдбар за замовчуванням прихований */
@@ -81,11 +99,11 @@ footer a {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #f4f4f4;
+    background-color: #2c3e50;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
     z-index: 100;
 }
 
@@ -105,10 +123,11 @@ footer a {
 
 #sidebar ol li a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
     display: flex;
     align-items: center;
     gap: 10px;
+    transition: color 0.3s ease;
 }
 
 #sidebar ol li a:hover {
@@ -122,8 +141,13 @@ footer a {
     font-size: 30px;
     background: none;
     border: none;
-    color: #333;
+    color: #fff;
     cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#sidebar #close-btn:hover {
+    color: #ff6b6b;
 }
 
 #open-btn {
@@ -133,10 +157,15 @@ footer a {
     font-size: 30px;
     background: none;
     border: none;
-    color: #333;
+    color: #fff;
     cursor: pointer;
     z-index: 1000;
     display: none;
+    transition: color 0.3s ease;
+}
+
+#open-btn:hover {
+    color: #007bff;
 }
 
 /* Для екранів менше 968px */
@@ -153,6 +182,19 @@ footer a {
     #sidebar {
         display: block;
     }
+
+    header ul li a {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    header {
+        display: none;
+    }
+
+    .fa {
+        color: #2c3e50;
+    }
 }
 
 /* Для екранів більше 968px */
@@ -162,7 +204,8 @@ footer a {
     }
     
     #nav {
-        display: block;
+        display: flex;
+        justify-content: center;
     }
     
     #open-btn {
