@@ -148,48 +148,54 @@ document.addEventListener("DOMContentLoaded", () => {
 ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
     `;
 
-        try {
-            // 1️⃣ Відправляємо текстове повідомлення
-            await fetch(`${apiUrl}/sendMessage`, {
+try {
+    // 1️⃣ Відправляємо текстове повідомлення
+    await fetch(`${apiUrl}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
+    });
+
+    // 2️⃣ Відправляємо URL фото товару
+    for (const item of orderDetails) {
+        if (item.photoUrl) {
+            await fetch(`${apiUrl}/sendPhoto`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    photo: item.photoUrl,
+                    caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
+                })
             });
-
-            // 2️⃣ Відправляємо URL фото товару
-            for (const item of orderDetails) {
-                if (item.photoUrl) {
-                    await fetch(`${apiUrl}/sendPhoto`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            chat_id: chatId,
-                            photo: item.photoUrl, // Відправляємо URL фото товару
-                            caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
-                        })
-                    });
-                }
-            }
-
-            // 3️⃣ Відправляємо прикріплені файли
-            for (const item of orderDetails) {
-                if (item.attachedFile) {
-                    const formData = new FormData();
-                    formData.append("chat_id", chatId);
-                    formData.append("photo", item.attachedFile); // Відправляємо прикріплений файл
-                    formData.append("caption", `${item.name} (додаткове фото)`);
-
-                    await fetch(`${apiUrl}/sendPhoto`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                }
-            }
-
-            showModal("✅ Замовлення успішно надіслано!", true);
-        } catch (error) {
-            console.error('Помилка:', error);
-            showModal("❌ Помилка при надсиланні замовлення.");
         }
+    }
+
+    // 3️⃣ Відправляємо прикріплені файли
+    for (const item of orderDetails) {
+        if (item.attachedFile) {
+            const formData = new FormData();
+            formData.append("chat_id", chatId);
+            formData.append("photo", item.attachedFile);
+            formData.append("caption", `${item.name} (додаткове фото)`);
+
+            await fetch(`${apiUrl}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            });
+        }
+    }
+
+    // ✅ Очистити локальний сторейдж та оновити кошик
+    localStorage.removeItem(cartKey);
+    cart.length = 0; // Очищаємо масив кошика
+    updateCart();
+
+    showModal("✅ Замовлення успішно надіслано!", true);
+} catch (error) {
+    console.error('Помилка:', error);
+    showModal("❌ Помилка при надсиланні замовлення.");
+}
+
     });
 });
