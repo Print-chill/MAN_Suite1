@@ -192,8 +192,9 @@ footer a:hover {
         display: none;
     }
     footer {
-        width: 100%;
-        overflow-x: hidden;
+    width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
     }
     .fa {
         color: #2c3e50;
