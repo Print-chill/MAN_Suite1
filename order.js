@@ -156,8 +156,9 @@ ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, 
                 body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
             });
 
-            // 2️⃣ Відправляємо URL фото товару
+            // 2️⃣ Відправляємо основне фото товару та прикріплений файл (якщо є)
             for (const item of orderDetails) {
+                // Відправляємо основне фото товару
                 if (item.photoUrl) {
                     await fetch(`${apiUrl}/sendPhoto`, {
                         method: 'POST',
@@ -165,14 +166,12 @@ ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, 
                         body: JSON.stringify({
                             chat_id: chatId,
                             photo: item.photoUrl, // Відправляємо URL фото товару
-                            caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
+                            caption: `${item.name} (основне фото)`
                         })
                     });
                 }
-            }
 
-            // 3️⃣ Відправляємо прикріплені файли
-            for (const item of orderDetails) {
+                // Відправляємо прикріплений файл (якщо є)
                 if (item.attachedFile) {
                     const formData = new FormData();
                     formData.append("chat_id", chatId);
