@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти - Сувенірний магазин "Контраст"</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="contacts.css">
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/f93cbd3298.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Сайдбар -->
+    <div id="sidebar">
+        <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
+        <span id="close-btn">&times;</span>
+        <ol>
+            <li><a href="index.html">Щоденники</a></li>
+            <li><a href="index1.html">Футболки</a></li>
+            <li><a href="in.html">Холсти на підраминку</a></li>
+            <li><a href="index3.html">Чашки</a></li>
+            <li><a href="index4.html">Подушки</a></li>
+            <li><a href="index5.html">Контакти</a></li>
+        </ol>
+    </div>
+
+    <!-- Шапка -->
+    <header>
+        <button id="cart-button">&#128722; Кошик</button>
+        <div id="nav">
+            <ul>
+                <li><a href="index.html">Щоденники</a></li>
+                <li><a href="index1.html">Футболки</a></li>
+                <li><a href="in.html">Холсти на підраминку</a></li>
+                <li><a href="index3.html">Чашки</a></li>
+                <li><a href="index4.html">Подушки</a></li>
+                <li><a href="index5.html">Контакти</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Основна частина -->
+    <main>
+        <button id="cart-button-mobile" class="cart-button-m">&#128722;</button>
+        <div id="cart-notification" class="hidden">Товар додано в кошик</div>
+        <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
+
+        <!-- Контактна інформація -->
+        <section class="contact-container">
+            <h1>Контактна інформація</h1>
+            <div class="contact-item">
+                <h2>Номери телефонів</h2>
+                <p>
+                    <a href="viber://chat?number=%2B380992042379">
+                        <i class="fa fa-phone"></i> +380992042379 (Viber)
+                    </a>
+                </p>
+                <p>
+                    <a href="viber://chat?number=%2B380677774308">
+                        <i class="fa fa-phone"></i> +380677774308 (Viber)
+                    </a>
+                </p>
+            </div>
+            <div class="contact-item">
+                <h2>Пошта</h2>
+                <p>
+                    <a href="mailto:kontrast777@ukr.net">
+                        <i class="fa fa-envelope"></i> kontrast777@ukr.net
+                    </a>
+                </p>
+            </div>
+            <div class="contact-item">
+                <h2>Сайт</h2>
+                <p>
+                    <a href="https://kontrast-uman.netlify.app" target="_blank">
+                        <i class="fa fa-globe"></i> kontrast-uman.netlify.app
+                    </a>
+                </p>
+            </div>
+            <div class="contact-item">
+                <h2>Сторінка на Facebook</h2>
+                <p>
+                    <a href="https://www.facebook.com/profile.php?id=100085132531735" target="_blank">
+                        <i class="fa fa-facebook"></i> Facebook
+                    </a>
+                </p>
+            </div>
+            <div class="contact-item">
+                <h2>Розміщення на Google Maps</h2>
+                <div id="google-maps">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2630.3841296307314!2d30.21386147645839!3d48.75546027131835!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d20d0a7c06ef87%3A0xe6511cd4a9009c0!2z0KTQvtGC0L7RgdCw0LvQvtC9ICLQmtCe0J3QotCg0JDQodCiIg!5e0!3m2!1suk!2sua!4v1719766581426!5m2!1suk!2sua" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="contact-item">
+                <h2>Графік роботи</h2>
+                <p>Дзвінки приймаються з 10:00 до 18:00</p>
+            </div>
+        </section>
+
+        <!-- Важливе повідомлення -->
+        <div class="important-message">
+            <h2>Важливе повідомлення</h2>
+            <p>Шановні відвідувачі сайту, доводимо до Вашого відому, що розміщення фото матеріалів на нашому сайті не є комерційним, а лише показує майстерність та підхід до роботи авторів, а також має в своїй складовій елементи інтелектуальної власності дизайнерів Сувенірного магазину, що надає нам право публікації вищезгаданих творів на власному сайті. В разі незгоди із політикою студії або небажанням бачити публічно своє фото, просимо Вас <strong>ОСОБИСТО</strong> звертатись до студії за номером телефону <strong>+380992042379</strong> у робочі дні із 09-00 до 17-00 для врегулювання даних питань.</p>
+            <p>Дякуємо за порозуміння! Ласкаво просимо!!!</p>
+        </div>
+    </main>
+
+    <!-- Кошик -->
+    <div id="cart">
+        <h2 class="close">Кошик <span class="closeX">&times;</span></h2>
+        <ul id="cart-items"></ul>
+        <button id="checkout">Оформити замовлення</button>
+    </div>
+
+    <!-- Підвал -->
+    <footer>
+        <p>&copy; 2024</p>
+        <p><a href="viber://chat?number=%2B380677774308">+380677774308 (Viber)</a></p>
+        <p><a href="viber://chat?number=%2B380992042379">+380992042379 (Viber)</a></p>
+        <p><a href="mailto:kontrast777@ukr.net"><i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net</a></p>
+    </footer>
+
+    <script src="btn.js"></script>
+    <script>
+        $(document).ready(() => {
+            const nav = $("#nav ul");
+            const sidebar = $("#sidebar");
+            const openBtn = $("#open-btn");
+            const closeBtn = $("#close-btn");
+
+            $(".toggleMenu").click((e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                $("#nav ul").slideToggle(500);
+            });
+
+            $(window).resize(() => {
+                if ($(window).width() > 992) nav.removeAttr("style");
+            });
+
+            openBtn.click(() => sidebar.addClass("open"));
+            closeBtn.click(() => sidebar.removeClass("open"));
+        });
+    </script>
+</body>
+</html>
