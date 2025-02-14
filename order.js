@@ -14,14 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
         modalMessage.textContent = message;
         modal.classList.add("visible");
 
-        // Змінюємо колір тексту в залежності від типу повідомлення
         if (isSuccess) {
             modalMessage.style.color = "green";
         } else {
             modalMessage.style.color = "red";
         }
 
-        // Автоматично приховуємо модальне вікно через 3 секунди
         setTimeout(() => {
             modal.classList.remove("visible");
         }, 3000);
@@ -48,13 +46,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateCart();
     document.addEventListener("click", (event) => {
-    if (event.target.classList.contains("remove-item")) {
-        const index = event.target.dataset.index;
-        cart.splice(index, 1); // Видаляємо товар з кошика
-        localStorage.setItem(cartKey, JSON.stringify(cart)); // Оновлюємо локальне сховище
-        updateCart(); // Оновлюємо відображення кошика
-    }
-});
+        if (event.target.classList.contains("remove-item")) {
+            const index = event.target.dataset.index;
+            cart.splice(index, 1); 
+            localStorage.setItem(cartKey, JSON.stringify(cart)); 
+            updateCart();
+        }
+    });
 
     cartHeader.addEventListener("click", () => {
         const arrow = cartHeader.querySelector(".arrow");
@@ -77,30 +75,26 @@ document.addEventListener("DOMContentLoaded", () => {
     updateButtonState();
 
     submitBtn.addEventListener("click", async () => {
-        // 🔹 Отримуємо всі обов'язкові поля (тільки ті, що мають атрибут required)
         const requiredFields = document.querySelectorAll("input[required], select[required]");
         let isValid = true;
 
         requiredFields.forEach(field => {
-    if (!field.value.trim()) {
-        isValid = false;
-        field.classList.add("error");
-
-        // Додаємо обробник події input для поля
-        field.addEventListener("input", () => {
-            if (field.value.trim()) {
-                field.classList.remove("error"); // Видаляємо помилку, якщо поле заповнено
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add("error");
+                field.addEventListener("input", () => {
+                    if (field.value.trim()) {
+                        field.classList.remove("error");
+                    }
+                }, { once: true });
             }
-        }, { once: true }); // Обробник викликається лише один раз
-    }
-});
+        });
 
         if (!isValid) {
             showModal("⚠ Заповніть всі обов’язкові поля перед відправкою замовлення!");
-            return; // ❌ Зупиняє виконання, якщо є порожні поля
+            return;
         }
 
-        // 🚀 Якщо всі обов'язкові поля заповнені, надсилаємо замовлення
         const botToken = '7609021461:AAGc8uPCQMjSleXxVopUCNfqPLmF5OSt2ds';
         const chatId = '-1002479073400';
         const apiUrl = `https://api.telegram.org/bot${botToken}`;
@@ -134,8 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const orderDetails = Array.from(document.querySelectorAll("#cart-items .cart-item")).map((item, index) => ({
             name: cart[index].name,
             quantity: item.querySelector(".quantity").value,
-            size: item.querySelector(".size")?.value || "Не вказано",
-            photoSrc: item.querySelector(".cart-img")?.src // Отримуємо URL зображення товару
+            size: item.querySelector(".size")?.value || "Не вказано"
         }));
 
         const messageText = `
@@ -149,27 +142,25 @@ document.addEventListener("DOMContentLoaded", () => {
 - Оплата: ${paymentMethod}
 - Товари:
 ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
-    `;
+        `;
 
         try {
-            // 1️⃣ Відправляємо текстове повідомлення
             await fetch(`${apiUrl}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
             });
 
-            // 2️⃣ Відправляємо всі зображення товарів
-            for (const item of orderDetails) {
-                if (item.photoSrc) {
+            const fileInputs = document.querySelectorAll(".photo");
+            for (const input of fileInputs) {
+                if (input.files.length > 0) {
+                    const formData = new FormData();
+                    formData.append('chat_id', chatId);
+                    formData.append('photo', input.files[0]);
+
                     await fetch(`${apiUrl}/sendPhoto`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            chat_id: chatId,
-                            photo: item.photoSrc, // Відправляємо URL фото
-                            caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
-                        })
+                        body: formData
                     });
                 }
             }
