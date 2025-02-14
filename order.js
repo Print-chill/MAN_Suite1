@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span class="cart-price">${item.price}</span>
                         <label>Кількість:</label>
                         <input type="number" class="quantity" data-index="${index}" value="1" min="1">
-                        <label>Прикріпити фото:</label>
+                        <label>Додаткове фото:</label>
                         <input type="file" class="photo" data-index="${index}" accept="image/*">
                     </div>
                     <div class="remove-item" data-index="${index}">×</div>
@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.style.backgroundColor = consentCheckbox.checked ? "#007bff" : "gray";
         submitBtn.style.cursor = consentCheckbox.checked ? "pointer" : "not-allowed";
     };
-
     consentCheckbox.addEventListener("change", updateButtonState);
     updateButtonState();
 
@@ -84,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!field.value.trim()) {
                 isValid = false;
                 field.classList.add("error");
+
                 field.addEventListener("input", () => {
                     if (field.value.trim()) {
                         field.classList.remove("error");
@@ -105,11 +105,34 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById('email').value.trim();
         const telegram = document.getElementById("telegram").value.trim();
         const paymentMethod = document.getElementById('payment-method').value;
+        const deliveryType = document.getElementById('delivery-type').value;
+        const receiverName = document.getElementById("receiver-name").value.trim();
+        const receiverPhone = document.getElementById("receiver-phone").value.trim();
+
+        let deliveryAddress = "";
+        if (deliveryType === "courier") {
+            const city = document.getElementById("courier-city").value.trim();
+            const street = document.getElementById("courier-street").value.trim();
+            const apartment = document.getElementById("courier-apartment").value.trim();
+            deliveryAddress = `Кур'єрська доставка: ${city}, ${street}${apartment ? `, кв. ${apartment}` : ""}`;
+        } else if (deliveryType === "branch") {
+            const city = document.getElementById("branch-city").value.trim();
+            const branchSelect = document.getElementById("branch-select");
+            const branchDescription = branchSelect.options[branchSelect.selectedIndex]?.textContent || "Невідоме відділення";
+            deliveryAddress = `Відділення: ${city}, ${branchDescription}`;
+        } else if (deliveryType === "locker") {
+            const city = document.getElementById("locker-city").value.trim();
+            const lockerSelect = document.getElementById("locker-select");
+            const lockerDescription = lockerSelect.options[lockerSelect.selectedIndex]?.textContent || "Невідомий поштомат";
+            deliveryAddress = `Поштомат: ${city}, ${lockerDescription}`;
+        }
 
         const orderDetails = Array.from(document.querySelectorAll("#cart-items .cart-item")).map((item, index) => ({
             name: cart[index].name,
             quantity: item.querySelector(".quantity").value,
-            photoSrc: item.querySelector(".cart-img")?.src
+            size: item.querySelector(".size")?.value || "Не вказано",
+            photoUrl: item.querySelector(".cart-img")?.src, // URL фото товару
+            attachedFile: item.querySelector(".photo")?.files[0] // Файл, який прикріпив користувач
         }));
 
         const messageText = `
@@ -117,40 +140,44 @@ document.addEventListener("DOMContentLoaded", () => {
 - Ім'я: ${name}
 - Email: ${email}
 - Telegram: ${telegram}
+- Доставка: ${deliveryType}
+- Адреса: ${deliveryAddress}
+- Одержувач: ${receiverName}, ${receiverPhone}
 - Оплата: ${paymentMethod}
 - Товари:
-${orderDetails.map(item => `${item.name} (кількість: ${item.quantity})`).join("\n")}
-        `;
+${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
+    `;
 
         try {
+            // 1️⃣ Відправляємо текстове повідомлення
             await fetch(`${apiUrl}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
             });
 
-            // Відправка фото товарів
+            // 2️⃣ Відправляємо URL фото товару
             for (const item of orderDetails) {
-                if (item.photoSrc) {
+                if (item.photoUrl) {
                     await fetch(`${apiUrl}/sendPhoto`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             chat_id: chatId,
-                            photo: item.photoSrc,
-                            caption: `${item.name} (кількість: ${item.quantity})`
+                            photo: item.photoUrl, // Відправляємо URL фото товару
+                            caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
                         })
                     });
                 }
             }
 
-            // Відправка прикріплених файлів
-            const fileInputs = document.querySelectorAll(".photo");
-            for (const input of fileInputs) {
-                if (input.files.length > 0) {
+            // 3️⃣ Відправляємо прикріплені файли
+            for (const item of orderDetails) {
+                if (item.attachedFile) {
                     const formData = new FormData();
-                    formData.append('chat_id', chatId);
-                    formData.append('photo', input.files[0]);
+                    formData.append("chat_id", chatId);
+                    formData.append("photo", item.attachedFile); // Відправляємо прикріплений файл
+                    formData.append("caption", `${item.name} (додаткове фото)`);
 
                     await fetch(`${apiUrl}/sendPhoto`, {
                         method: 'POST',
