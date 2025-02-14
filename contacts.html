@@ -29,7 +29,6 @@
 
     <!-- Шапка -->
     <header>
-        <button id="cart-button">&#128722; Кошик</button>
         <div id="nav">
             <ul>
                 <li><a href="index.html">Щоденники</a></li>
@@ -107,23 +106,12 @@
             <p>Дякуємо за порозуміння! Ласкаво просимо!!!</p>
         </div>
     </main>
-
-    <!-- Кошик -->
-    <div id="cart">
-        <h2 class="close">Кошик <span class="closeX">&times;</span></h2>
-        <ul id="cart-items"></ul>
-        <button id="checkout">Оформити замовлення</button>
-    </div>
-
-    <!-- Підвал -->
     <footer>
         <p>&copy; 2024</p>
         <p><a href="viber://chat?number=%2B380677774308">+380677774308 (Viber)</a></p>
         <p><a href="viber://chat?number=%2B380992042379">+380992042379 (Viber)</a></p>
         <p><a href="mailto:kontrast777@ukr.net"><i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net</a></p>
     </footer>
-
-    <script src="btn.js"></script>
     <script>
         $(document).ready(() => {
             const nav = $("#nav ul");
@@ -145,5 +133,6 @@
             closeBtn.click(() => sidebar.removeClass("open"));
         });
     </script>
+    <script src="btn.js"></script>
 </body>
 </html>
