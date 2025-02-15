@@ -1,0 +1,30 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot script
+        run: |
+          echo "SECRET_VALUE=$7609021461:AAGc8uPCQMjSleXxVopUCNfqPLmF5OSt2ds" >> $GITHUB_ENV
+          echo "SECRET_VALUE1=$-1002479073400" >> $GITHUB_ENV
+        env:
+          SECRET_VALUE: ${{ secrets.SECRET_VALUE }}
+          SECRET_VALUE1: ${{ secrets.SECRET_VALUE1 }}
