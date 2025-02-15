@@ -97,8 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const botToken = `${process.env.SECRET_VALUE}`;
-        const chatId = `${process.env.SECRET_VALUE1}`;
+        const botToken = `${env.SECRET_VALUE}`;
+        const chatId = `${env.SECRET_VALUE1}`;
         const apiUrl = `https://api.telegram.org/bot${botToken}`;
 
         const name = document.getElementById('name').value.trim();
