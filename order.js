@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <li class="cart-item">
                     <img src="${item.jpg}" alt="${item.name}" class="cart-img">
                     <div class="cart-info">
-                        <span class="cart-name">${item.name}</span>
+                        <span class="cart-name">${item.name}${item.article ? ` (Артикул: ${item.article})` : ''}</span>
                         <span class="cart-price">${item.price}</span>
                         <label>Кількість:</label>
                         <input type="number" class="quantity" data-index="${index}" value="1" min="1">
@@ -47,14 +47,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     updateCart();
+
     document.addEventListener("click", (event) => {
-    if (event.target.classList.contains("remove-item")) {
-        const index = event.target.dataset.index;
-        cart.splice(index, 1); // Видаляємо товар з кошика
-        localStorage.setItem(cartKey, JSON.stringify(cart)); // Оновлюємо локальне сховище
-        updateCart(); // Оновлюємо відображення кошика
-    }
-});
+        if (event.target.classList.contains("remove-item")) {
+            const index = event.target.dataset.index;
+            cart.splice(index, 1); // Видаляємо товар з кошика
+            localStorage.setItem(cartKey, JSON.stringify(cart)); // Оновлюємо локальне сховище
+            updateCart(); // Оновлюємо відображення кошика
+        }
+    });
 
     cartHeader.addEventListener("click", () => {
         const arrow = cartHeader.querySelector(".arrow");
@@ -82,18 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let isValid = true;
 
         requiredFields.forEach(field => {
-    if (!field.value.trim()) {
-        isValid = false;
-        field.classList.add("error");
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add("error");
 
-        // Додаємо обробник події input для поля
-        field.addEventListener("input", () => {
-            if (field.value.trim()) {
-                field.classList.remove("error"); // Видаляємо помилку, якщо поле заповнено
+                // Додаємо обробник події input для поля
+                field.addEventListener("input", () => {
+                    if (field.value.trim()) {
+                        field.classList.remove("error"); // Видаляємо помилку, якщо поле заповнено
+                    }
+                }, { once: true }); // Обробник викликається лише один раз
             }
-        }, { once: true }); // Обробник викликається лише один раз
-    }
-});
+        });
 
         if (!isValid) {
             showModal("⚠ Заповніть всі обов’язкові поля перед відправкою замовлення!");
@@ -122,24 +123,25 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (deliveryType === "branch") {
             const city = document.getElementById("branch-city").value.trim();
             const branchSelect = document.getElementById("branch-select");
-            const branchDescription = branchSelect.options[branchSelect.selectedIndex]?.textContent || "Невідоме відділення";
+            const branchDescription = branchSelect.options[branchSelect.selectedIndex]?.text || "Невідоме відділення";
             deliveryAddress = `Відділення: ${city}, ${branchDescription}`;
         } else if (deliveryType === "locker") {
             const city = document.getElementById("locker-city").value.trim();
             const lockerSelect = document.getElementById("locker-select");
-            const lockerDescription = lockerSelect.options[lockerSelect.selectedIndex]?.textContent || "Невідомий поштомат";
+            const lockerDescription = lockerSelect.options[lockerSelect.selectedIndex]?.text || "Невідомий поштомат";
             deliveryAddress = `Поштомат: ${city}, ${lockerDescription}`;
         }
 
         const orderDetails = Array.from(document.querySelectorAll("#cart-items .cart-item")).map((item, index) => ({
             name: cart[index].name,
+            article: cart[index].article || "N/A", // Include article number or "N/A" if not present
             quantity: item.querySelector(".quantity").value,
             size: item.querySelector(".size")?.value || "Не вказано",
             photoSrc: item.querySelector(".cart-img")?.src // Отримуємо URL зображення товару
         }));
 
         const messageText = `
-🛒 *Нове замовлення:*
+🛒 <b>Нове замовлення:</b>
 - Ім'я: ${name}
 - Email: ${email}
 - Telegram: ${telegram}
@@ -148,15 +150,15 @@ document.addEventListener("DOMContentLoaded", () => {
 - Одержувач: ${receiverName}, ${receiverPhone}
 - Оплата: ${paymentMethod}
 - Товари:
-${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`).join("\n")}
-    `;
+${orderDetails.map(item => `${item.name}${item.article !== 'N/A' ? ` (Артикул: ${item.article})` : ''} (кількість: ${item.quantity}, розмір: ${item.size})`).join('\n')}
+        `;
 
         try {
             // 1️⃣ Відправляємо текстове повідомлення
             await fetch(`${apiUrl}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'Markdown' })
+                body: JSON.stringify({ chat_id: chatId, text: messageText, parse_mode: 'HTML' })
             });
 
             // 2️⃣ Відправляємо всі зображення товарів
@@ -168,7 +170,7 @@ ${orderDetails.map(item => `${item.name} (кількість: ${item.quantity}, 
                         body: JSON.stringify({
                             chat_id: chatId,
                             photo: item.photoSrc, // Відправляємо URL фото
-                            caption: `${item.name} (кількість: ${item.quantity}, розмір: ${item.size})`
+                            caption: `${item.name}${item.article !== 'N/A' ? ` (Артикул: ${item.article})` : ''} (кількість: ${item.quantity}, розмір: ${item.size})`
                         })
                     });
                 }

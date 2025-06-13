@@ -5,6 +5,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const notificationAdd = document.getElementById("cart-notification");
     const notificationDel = document.getElementById("cart-notification-del");
     const checkoutButton = document.getElementById("checkout");
+    const productsContainer = document.getElementById("products-container");
+
+    // Function to render products with article numbers
+    const renderProducts = () => {
+        if (!productsContainer) return;
+        productsContainer.innerHTML = ''; // Clear existing content
+        const products = document.querySelectorAll("#products-container .product") || [];
+        products.forEach(product => {
+            const name = product.querySelector("h3")?.innerText || "";
+            const price = product.querySelector("p")?.innerText || "";
+            const imgSrc = product.querySelector("img")?.src || "";
+            const filename = imgSrc.split('/').pop(); // Get the last part of the URL (e.g., "1.webp")
+            const number = filename.split('.')[0]; // Get the number before the extension (e.g., "1")
+            const article = number && !isNaN(number) ? String(parseInt(number, 10)).padStart(4, '0') : "N/A";
+            productsContainer.innerHTML += `
+                <div class="product">
+                    <img src="${imgSrc}" alt="${name}">
+                    <h3>${name}</h3>
+                    ${name.includes("Щоденник") ? `<p class="article">Артикул: ${article}</p>` : ''}
+                    <p>${price}</p>
+                    <button class="add-to-cart">Додати в кошик</button>
+                </div>
+            `;
+        });
+    };
 
     const updateCart = () => {
         if (cart.length === 0) {
@@ -17,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <li>
                     <div class="cart-item-content">
                         <img src="${item.jpg || "path/to/default-image.jpg"}" alt="${item.name}" style="width: 50px; height: auto; margin-right: 10px;">
-                        <span>${item.name} - ${item.price}</span>
+                        <span>${item.name}${item.article ? ` (Артикул: ${item.article})` : ''} - ${item.price}</span>
                         <div class="remove-item" data-index="${index}">×</div>
                     </div>
                 </li>
@@ -45,6 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => notificationElement.classList.remove("show"), 3000);
     };
 
+    // Render products on page load
+    renderProducts();
+
     document.getElementById("products-container").addEventListener("click", (event) => {
         if (event.target.classList.contains("add-to-cart")) {
             const productElement = event.target.closest(".product");
@@ -53,6 +81,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 price: productElement.querySelector("p").innerText,
                 jpg: productElement.querySelector("img").src,
             };
+            // Assign article number based on image filename for notebooks
+            if (product.name.includes("Щоденник")) {
+                const filename = product.jpg.split('/').pop(); // Get the last part of the URL (e.g., "1.webp")
+                const number = filename.split('.')[0]; // Get the number before the extension (e.g., "1")
+                if (number && !isNaN(number)) {
+                    product.article = String(parseInt(number, 10)).padStart(4, '0'); // Convert to 0001, 0002, etc.
+                } else {
+                    alert("Вибачте, артикул для цього щоденника не визначено (неправильна назва файлу)!");
+                    return; // Don’t add to cart if filename doesn’t contain a valid number
+                }
+            }
             cart.push(product);
             saveCart();
             updateCart();

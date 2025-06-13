@@ -15,18 +15,18 @@
 <body>
     <div id="sidebar">
         <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
-            <span id="close-btn">&times;</span>
-            <ol>
-                <li><a href="index.html">Щоденники</a></li>
-                <li><a href="index1.html">Футболки</a></li>
-                <li><a href="in.html">Холсти на підраминку</a></li>
-                <li><a href="index3.html">Чашки</a></li>
-                <li><a href="index4.html">Подушки</a></li>
-                <li><a href="index5.html">Контакти</a></li>
-            </ol>
-        </div>
+        <span id="close-btn">×</span>
+        <ol>
+            <li><a href="index.html">Щоденники</a></li>
+            <li><a href="index1.html">Футболки</a></li>
+            <li><a href="in.html">Холсти на підраминку</a></li>
+            <li><a href="index3.html">Чашки</a></li>
+            <li><a href="index4.html">Подушки</a></li>
+            <li><a href="index5.html">Контакти</a></li>
+        </ol>
+    </div>
     <header>
-        <button id="cart-button">&#128722; Кошик</button>
+        <button id="cart-button">🛒 Кошик</button>
         <div id="nav">
             <ul>
                 <li><a href="index.html">Щоденники</a></li>
@@ -39,18 +39,18 @@
         </div>
     </header>
     <main>
-        <button id="cart-button-mobile" class="cart-button-m">&#128722;</button>
+        <button id="cart-button-mobile" class="cart-button-m">🛒</button>
         <div id="cart-notification" class="hidden">Товар додано в кошик</div>
         <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
         <section id="products-container" class="products"></section>
     </main>
     <div id="cart">
-        <h2 class="close">Кошик <span class="closeX">&times;</span></h2>
+        <h2 class="close">Кошик <span class="closeX">×</span></h2>
         <ul id="cart-items"></ul>
         <button id="checkout">Оформити замовлення</button>
     </div>
     <footer>
-        <p>&copy; 2024</p>
+        <p>© 2024</p>
         <p><a href="viber://chat?number=%2B380677774308">+380677774308 (Viber)</a></p>
         <p><a href="viber://chat?number=%2B380992042379">+380992042379 (Viber)</a></p>
         <p><a href="mailto:kontrast777@ukr.net"><i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net</a></p>
@@ -87,14 +87,17 @@
                         fileName.includes("fortnite") ? 'Щоденник "Fortnite"' :
                         fileName.includes("amongus") ? 'Щоденник "Among Us"' : "Щоденник";
                     const productPrice = "Ціна уточнюється.";
+                    const articleNumber = String(parseInt(fileName.split('.')[0], 10)).padStart(4, '0'); // e.g., "1.webp" -> "0001"
+                    const articleHTML = productTitle.includes("Щоденник") ? `<p class="article">Артикул: ${articleNumber}</p>` : '';
                     const productHTML = `
                         <article class="product">
                             <img src="img/${fileName}" alt="${productTitle}">
                             <h3>${productTitle}</h3>
+                            ${articleHTML}
                             <p>${productPrice}</p>
                             <div class="content_btn">
                                 <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                                <div class="add-to-cart">&#128722;</div>
+                                <div class="add-to-cart">🛒</div>
                             </div>
                         </article>
                     `;
