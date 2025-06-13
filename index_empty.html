@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин - Товари недоступні</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="empty.css">
+    <link rel="icon" href="img/logo.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/f93cbd3298.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="sidebar">
+        <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
+        <span id="close-btn">×</span>
+        <ol>
+            <li><a href="index_empty.html">Щоденники</a></li>
+            <li><a href="index1.html">Футболки</a></li>
+            <li><a href="index_empty.html">Холсти на підрамнику</a></li>
+            <li><a href="index_empty.html">Чашки</a></li>
+            <li><a href="index_empty.html">Подушки</a></li>
+                <li><a href="contacts.html">Контакти</a></li>
+        </ol>
+    </div>
+    <header>
+        <button id="cart-button">🛒 Кошик</button>
+        <div id="nav">
+            <ul>
+                <li><a href="index_empty.html">Щоденники</a></li>
+                <li><a href="index1.html">Футболки</a></li>
+                <li><a href="index_empty.html">Холсти на підрамнику</a></li>
+                <li><a href="index_empty.html">Чашки</a></li>
+                <li><a href="index_empty.html">Подушки</a></li>
+                <li><a href="contacts.html">Контакти</a></li>
+            </ul>
+        </div>
+    </header>
+<main>
+    <button id="cart-button-mobile" class="cart-button-m">🛒</button>
+    <div id="cart-notification" class="hidden">Товар додано в кошик</div>
+    <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
+    <section id="products-container" class="products">
+        <div class="empty-message">
+            <h2>Ой-ой! Товари на канікулах! 🏖️</h2>
+            <p>На жаль, наразі наші чудові щоденники, футболки та інші скарби вирішили взяти невелику перерву. Вони, мабуть, засмагують десь на пляжі або грають у хованки! 😄</p>
+            <p>Зачекайте трохи, і вони повернуться з новими силами. А поки що – пишіть нам у <a href="viber://chat?number=%2B380992042379">Viber</a> або перевіряйте пізніше. Дякуємо за терпіння, ви – найкращі! 🎉</p>
+        </div>
+    </section>
+</main>
+    <div id="cart">
+        <h2 class="close">Кошик <span class="closeX">×</span></h2>
+        <ul id="cart-items"></ul>
+        <button id="checkout" disabled>Оформити замовлення</button>
+    </div>
+    <footer>
+        <p>© 2024</p>
+        <p><a href="viber://chat?number=%2B380677774308">+380677774308 (Viber)</a></p>
+        <p><a href="viber://chat?number=%2B380992042379">+380992042379 (Viber)</a></p>
+        <p><a href="mailto:kontrast777@ukr.net"><i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net</a></p>
+    </footer>
+    <script src="delivery.js"></script>
+  <script>
+    $(document).ready(() => {
+        const nav = $("#nav ul");
+        const sidebar = $("#sidebar");
+        const openBtn = $("#open-btn");
+        const closeBtn = $("#close-btn");
+        const cart = $("#cart");
+        const closeCart = $("#cart .closeX");
+
+        $(".toggleMenu").click((e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            $("#nav ul").slideToggle(500);
+        });
+
+        $(window).resize(() => {
+            if ($(window).width() > 992) nav.removeAttr("style");
+        });
+
+        openBtn.click(() => sidebar.addClass("open"));
+        closeBtn.click(() => sidebar.removeClass("open"));
+
+        // Відкриття кошика без додавання товарів
+        $("#cart-button, #cart-button-mobile").on("click", () => {
+            cart.css("display", "block");
+        });
+
+        closeCart.on("click", () => {
+            cart.css("display", "none");
+        });
+
+        // Вимкнення додавання товарів (немає .add-to-cart на цій сторінці)
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+.empty-message {
+    text-align: center;
+    padding: 50px;
+    color: #34495e;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.empty-message h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.empty-message p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.empty-message a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.empty-message a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .empty-message {
+        padding: 30px;
+    }
+    .empty-message h2 {
+        font-size: 22px;
+    }
+    .empty-message p {
+        font-size: 14px;
+    }
+}
