@@ -20,7 +20,7 @@
             <li><a href="index.html">Щоденники</a></li>
             <li><a href="index1.html">Футболки</a></li>
             <li><a href="index_empty.html">Холсти на підрамнику</a></li>
-            <li><a href="index_empty.html">Чашки</a></li>
+            <li><a href="index2.html">Чашки</a></li>
             <li><a href="index_empty.html">Подушки</a></li>
                 <li><a href="contacts.html">Контакти</a></li>
         </ol>
@@ -32,7 +32,7 @@
                 <li><a href="index.html">Щоденники</a></li>
                 <li><a href="index1.html">Футболки</a></li>
             <li><a href="index_empty.html">Холсти на підрамнику</a></li>
-            <li><a href="index_empty.html">Чашки</a></li>
+            <li><a href="index2.html">Чашки</a></li>
             <li><a href="index_empty.html">Подушки</a></li>
                 <li><a href="contacts.html">Контакти</a></li>
             </ul>
@@ -77,7 +77,7 @@
             openBtn.click(() => sidebar.addClass("open"));
             closeBtn.click(() => sidebar.removeClass("open"));
 
-            const productImages = Array.from({ length: 24 }, (_, i) => `${i + 1}.webp`);
+            const productImages = Array.from({ length: 24 }, (_, i) => `diarys/${i + 1}.webp`);
 
             const renderProducts = () => {
                 $("#products-container").empty();
@@ -87,7 +87,9 @@
                         fileName.includes("fortnite") ? 'Щоденник "Fortnite"' :
                         fileName.includes("amongus") ? 'Щоденник "Among Us"' : "Щоденник";
                     const productPrice = "Ціна уточнюється.";
-                    const articleNumber = String(parseInt(fileName.split('.')[0], 10)).padStart(4, '0'); // e.g., "1.webp" -> "0001"
+                    const fileBaseName = fileName.split('/').pop().split('.')[0]; // "diarys/1.webp" → "1"
+                    const articleNumber = String(parseInt(fileBaseName, 10)).padStart(4, '0');
+
                     const articleHTML = productTitle.includes("Щоденник") ? `<p class="article">Артикул: ${articleNumber}</p>` : '';
                     const productHTML = `
                         <article class="product">

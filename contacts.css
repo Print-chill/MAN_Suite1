@@ -1,4 +1,11 @@
 /* Вдосконалений contacts.css */
+.contact-container {
+    animation: fadeIn 1.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 .contact-container {
     max-width: 1200px;
@@ -9,11 +16,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+/*
 .contact-container:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
+}*/
 
 .contact-item {
     margin-bottom: 25px;
@@ -33,10 +40,10 @@
     transition: color 0.3s ease;
 }
 
-.contact-item h2:hover {
+/*.contact-item h2:hover {
     color: #007BFF;
 }
-
+*/
 .contact-item p {
     font-size: 16px;
     color: #34495e;
@@ -51,11 +58,11 @@
     border-radius: 5px;
     transition: all 0.3s ease;
 }
-
+/*
 .contact-item a:hover {
     color: #fff;
     background-color: #0056b3;
-}
+}*/
 
 .important-message {
     max-width: 1200px;
@@ -66,11 +73,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+/*
 .important-message:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
+}*/
 
 .important-message h2 {
     font-size: 24px;
@@ -147,5 +154,50 @@
     .contact-item p, 
     .important-message p {
         font-size: 13px;
+    }
+}
+
+.google-reviews-widget {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/*.google-reviews-widget:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}*/
+
+.google-reviews-widget h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+@media (max-width: 968px) {
+    .google-reviews-widget {
+        max-width: 100%;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .google-reviews-widget h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .google-reviews-widget {
+        padding: 10px;
+    }
+
+    .google-reviews-widget h2 {
+        font-size: 18px;
     }
 }

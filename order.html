@@ -1,40 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Оформлення замовлення</title>
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="order.css">
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="products.css">
     <link rel="icon" href="img/logo.png" type="image/png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/f93cbd3298.js"></script>
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="sidebar">
+        <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
+        <span id="close-btn">×</span>
+        <ol>
+            <li><a href="index.html">Щоденники</a></li>
+            <li><a href="index1.html">Футболки</a></li>
+            <li><a href="index_empty.html">Холсти на підрамнику</a></li>
+            <li><a href="index2.html">Чашки</a></li>
+            <li><a href="index_empty.html">Подушки</a></li>
+                <li><a href="contacts.html">Контакти</a></li>
+        </ol>
+    </div>
     <header>
+        <button id="cart-button">🛒 Кошик</button>
         <div id="nav">
             <ul>
                 <li><a href="index.html">Щоденники</a></li>
                 <li><a href="index1.html">Футболки</a></li>
             <li><a href="index_empty.html">Холсти на підрамнику</a></li>
-            <li><a href="index_empty.html">Чашки</a></li>
+            <li><a href="index2.html">Чашки</a></li>
             <li><a href="index_empty.html">Подушки</a></li>
                 <li><a href="contacts.html">Контакти</a></li>
             </ul>
         </div>
-        <div id="sidebar">
-            <span id="close-btn">&times;</span>
-            <ol>
-                <li><a href="index.html">Щоденники</a></li>
-                <li><a href="index1.html">Футболки</a></li>
-            <li><a href="index_empty.html">Холсти на підрамнику</a></li>
-            <li><a href="index_empty.html">Чашки</a></li>
-            <li><a href="index_empty.html">Подушки</a></li>
-                <li><a href="contacts.html">Контакти</a></li>
-            </ol>
-        </div>
-        <span id="open-btn" class="toggleMenu"><i class="fa fa-bars"></i></span>
     </header>
 
     <main>
@@ -46,8 +49,9 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email">
           
-            <label for="telegram">Юзер Telegram: <span style="color: red;">*</span></label>
-            <input type="text" id="telegram" name="telegram" required>
+            <label for="telegram">Юзер Telegram:<!--  <span style="color: red;">*</span>--></label> 
+            <input type="text" id="telegram" name="telegram">
+
          
             <h2 id="cart-header">
                 Ваш кошик <span class="arrow" style="font-size: 18px; cursor: pointer;">▼</span>

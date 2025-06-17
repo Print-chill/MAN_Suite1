@@ -39,18 +39,18 @@
         </div>
     </header>
     <main>
-        <button id="cart-button-mobile" class="cart-button-m">&#128722;</button>
+        <button id="cart-button-mobile" class="cart-button-m">🛒</button>
         <div id="cart-notification" class="hidden">Товар додано в кошик</div>
         <div id="cart-notification-del" class="hidden">Товар видалено з кошику</div>
         <section id="products-container" class="products"></section>
     </main>
     <div id="cart">
-        <h2 class="close">Кошик <span class="closeX">&times;</span></h2>
+        <h2 class="close">Кошик <span class="closeX">×</span></h2>
         <ul id="cart-items"></ul>
         <button id="checkout">Оформити замовлення</button>
     </div>
     <footer>
-        <p>&copy; 2024</p>
+        <p>© 2024</p>
         <p><a href="viber://chat?number=%2B380677774308">+380677774308 (Viber)</a></p>
         <p><a href="viber://chat?number=%2B380992042379">+380992042379 (Viber)</a></p>
         <p><a href="mailto:kontrast777@ukr.net"><i class="fa fa-envelope" style="color: #007BFF; font-size: 24px;"></i> kontrast777@ukr.net</a></p>
@@ -58,56 +58,64 @@
     <script src="btn.js"></script>
     <script src="delivery.js"></script>
     <script>
-$(document).ready(() => {
-    const nav = $("#nav ul");
-    const sidebar = $("#sidebar");
-    const openBtn = $("#open-btn");
-    const closeBtn = $("#close-btn");
+        $(document).ready(() => {
+            const nav = $("#nav ul");
+            const sidebar = $("#sidebar");
+            const openBtn = $("#open-btn");
+            const closeBtn = $("#close-btn");
 
-    $(".toggleMenu").click((e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        $("#nav ul").slideToggle(500);
+            $(".toggleMenu").click((e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                $("#nav ul").slideToggle(500);
+            });
+
+            $(window).resize(() => {
+                if ($(window).width() > 992) nav.removeAttr("style");
+            });
+
+            openBtn.click(() => sidebar.addClass("open"));
+            closeBtn.click(() => sidebar.removeClass("open"));
+
+            const productImages = Array.from({ length: 21 }, (_, i) => `pillows/1 (${i + 1}).webp`);
+
+
+            const renderCups = () => {
+                $("#products-container").empty();
+            productImages.forEach(fileName => {
+        let productTitle = "Подушка з дизайном";
+
+        if (fileName.includes("cat")) productTitle = 'Чашка "Котик"';
+        else if (fileName.includes("dog")) productTitle = 'Чашка "Песик"';
+        else if (fileName.includes("love")) productTitle = 'Чашка "Love"';
+        else if (fileName.includes("photo")) productTitle = 'Фоточашка';
+        else if (fileName.includes("name")) productTitle = 'Іменна чашка';
+        else if (fileName.includes("custom")) productTitle = 'Чашка з вашим дизайном';
+
+        const productPrice = "400грн";
+        const match = fileName.match(/\((\d+)\)/);
+        const numberInBrackets = match ? parseInt(match[1], 10) : 0;
+        const articleNumber = String(numberInBrackets + 46).padStart(4, '0');
+        const articleHTML = `<p class="article">Артикул: ${articleNumber}</p>`;
+
+        const productHTML = `
+            <article class="product">
+                <img src="img/${fileName}" alt="${productTitle}">
+                <h3>${productTitle}</h3>
+                ${articleHTML}
+                <p>${productPrice}</p>
+                <div class="content_btn">
+                    <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
+                    <div class="add-to-cart">🛒</div>
+                </div>
+            </article>
+        `;
+        $("#products-container").append(productHTML);
     });
+};
 
-    $(window).resize(() => {
-        if ($(window).width() > 992) nav.removeAttr("style");
-    });
-
-    openBtn.click(() => sidebar.addClass("open"));
-    closeBtn.click(() => sidebar.removeClass("open"));
-
-    const productImages = [
-        "1 (1).webp", "1 (2).webp", "1 (3).webp", "1 (4).webp", "1 (5).webp", 
-        "1 (6).webp", "1 (7).webp", "1 (8).webp", "1 (9).webp", "1 (10).webp", 
-        "1 (11).webp", "1 (12).webp", "1 (13).webp", "1 (14).webp", "1 (15).webp", 
-        "1 (16).webp", "1 (17).webp", "1 (18).webp", "1 (19).webp", "1 (20).webp", "1 (21).webp"
-    ];
-
-    const renderProducts = () => {
-        $("#products-container").empty();
-        productImages.forEach(fileName => {
-            const productTitle = "Футболка";
-            const productPrice = "Ціна уточнюється.";
-            const productHTML = `
-                <article class="product">
-                    <img src="img/t_shirt/${fileName}" alt="${productTitle}">
-                    <h3>${productTitle}</h3>
-                    <p>${productPrice}</p>
-                    <div class="content_btn">
-                        <a href="viber://chat?number=%2B380992042379" class="viber-button">Написати в Viber</a>
-                        <div class="add-to-cart">&#128722;</div>
-                    </div>
-                </article>
-            `;
-            $("#products-container").append(productHTML);
+            renderCups();
         });
-    };
-
-    renderProducts();
-});
-
     </script>
 </body>
 </html>
-
